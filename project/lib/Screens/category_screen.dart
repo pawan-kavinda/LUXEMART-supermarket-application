@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Widgets/inner_screen_widget.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
@@ -47,7 +48,14 @@ class CategoryScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              InnerWidget(innerproduct: 'vegitable')),
+                    );
+                  },
                 ),
                 InkWell(
                   borderRadius: BorderRadius.all(

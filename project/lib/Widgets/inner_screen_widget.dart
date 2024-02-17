@@ -1,106 +1,28 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project/Controllers/user_data.dart';
 
-// class FeedWidget extends StatefulWidget {
-//   const FeedWidget({super.key});
-
-//   @override
-//   State<FeedWidget> createState() => _FeedWidgetState();
-// }
-
-// class _FeedWidgetState extends State<FeedWidget> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Material(
-//         borderRadius: BorderRadius.circular(12),
-//         child: InkWell(
-//             borderRadius: BorderRadius.circular(12),
-//             onTap: () {},
-//             child: Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 children: [
-//                   Row(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Image.asset(
-//                         'assets/Images/cabbage.jpg',
-//                         height: 80,
-//                         fit: BoxFit.fill,
-//                       ),
-//                       Column(
-//                         children: [
-//                           Text(
-//                             "Large",
-//                             style: TextStyle(
-//                               fontSize: 22,
-//                             ),
-//                           ),
-//                           const SizedBox(
-//                             height: 6,
-//                           ),
-//                           // Row(
-//                           //   children: [
-//                           //     GestureDetector(
-//                           //       onTap: () {},
-//                           //       child: Icon(
-//                           //         IconlyBold.bag,
-//                           //         size: 22,
-//                           //       ),
-//                           //     ),
-//                           //     HeartBTN(),
-//                           //   ],
-//                           // ),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
-//                   // PriceWidget(
-//                   //   isOnSale: true,
-//                   //   price: 5,
-//                   //   salePrice: 2,
-//                   //   textPrice: "1",
-//                   // ),
-//                   const SizedBox(
-//                     height: 5,
-//                   ),
-//                   Text(
-//                     "Product title",
-//                     style: TextStyle(fontSize: 16),
-//                   )
-//                 ],
-//               ),
-//             )),
-//       ),
-//     );
-//   }
-// }
-
-class FeedWidget extends StatefulWidget {
-  const FeedWidget({super.key});
+class InnerWidget extends StatefulWidget {
+  // const InnerWidget({super.key});
+  final String innerproduct;
+  InnerWidget({required this.innerproduct});
 
   @override
-  State<FeedWidget> createState() => _FeedWidgetState();
+  State<InnerWidget> createState() => _InnerWidgetState();
 }
 
-class _FeedWidgetState extends State<FeedWidget> {
-  final _productstream =
-      FirebaseFirestore.instance.collection('products').snapshots();
-  UserData currentUser = new UserData();
+class _InnerWidgetState extends State<InnerWidget> {
+  final _productstream = FirebaseFirestore.instance.collection('products');
+  final TextEditingController _searchTextController = TextEditingController();
+  String searchtext = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-          stream: _productstream,
+          //methana wenas karapan constructor ekata category eka pass karaddi screen eka wenas wenna
+          stream: _productstream
+              .where('category', isEqualTo: widget.innerproduct)
+              .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text('Error');
@@ -112,7 +34,7 @@ class _FeedWidgetState extends State<FeedWidget> {
 
             return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 350 / 360),
+                    crossAxisCount: 2, childAspectRatio: 300 / 360),
                 itemCount: docs.length,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> data =
@@ -186,15 +108,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                           SizedBox(
                             width: double.infinity,
                             child: TextButton(
-                              onPressed: () async {
-                                User? user = FirebaseAuth.instance.currentUser;
-
-                                await FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(user!.uid)
-                                    .collection('cart')
-                                    .add(data);
-
+                              onPressed: () {
                                 // cartItems.returntitle(title);
                                 // cartItems.returnPrice(discountprice);
                                 // cartItems.returnImg(imgUrl);

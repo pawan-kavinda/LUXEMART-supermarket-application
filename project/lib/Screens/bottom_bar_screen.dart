@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:project/Screens/profile_screen.dart';
 import 'package:project/Screens/user_screen.dart';
 import 'package:project/Screens/category_screen.dart';
 import 'package:project/Screens/home_screen.dart';
@@ -17,7 +18,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   final List _pages = [
     const HomeScreen(),
     const CategoryScreen(),
-    const UserScreen()
+    const ProfileScreen(),
   ];
 
   void _selectedPage(int index) {

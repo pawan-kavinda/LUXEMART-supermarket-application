@@ -2,6 +2,8 @@
 
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Screens/InnerScreens/cart_screen.dart';
+import 'package:project/Widgets/feed_widget.dart';
 
 import 'package:project/Widgets/on_sale_widget.dart';
 
@@ -51,7 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Icon(Icons.shopping_cart)
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CartScreen()),
+                  );
+                },
+                icon: Icon(Icons.shopping_cart))
           ],
         ),
       ),
@@ -111,15 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               GridView.count(
                 shrinkWrap: true,
-                crossAxisCount: 3,
+                crossAxisCount: 1,
                 childAspectRatio: 250 / 300,
                 physics: NeverScrollableScrollPhysics(),
-                children: List.generate(5, (index) {
-                  return OnSaleWidget(
-                    image: _FeaturedImages[index],
-                    price: _Price[index],
-                    discount_price: _DiscountPrice[index],
-                  );
+                children: List.generate(1, (index) {
+                  return FeedWidget();
                 }),
               ),
             ],
