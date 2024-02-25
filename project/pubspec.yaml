@@ -43,6 +43,9 @@ dependencies:
   image_picker: ^1.0.7
   provider: ^6.1.1
   user_profile_avatar: ^0.1.2
+  google_maps_flutter: ^2.5.3
+  location: ^5.0.3
+  
 
 dev_dependencies:
   flutter_test:

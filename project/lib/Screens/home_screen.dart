@@ -3,6 +3,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Screens/InnerScreens/cart_screen.dart';
+import 'package:project/Widgets/discount.dart';
 import 'package:project/Widgets/feed_widget.dart';
 
 import 'package:project/Widgets/on_sale_widget.dart';
@@ -96,14 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 180,
                 child: ListView.builder(
-                  itemCount: _FeaturedImages.length,
+                  itemCount: 1,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return OnSaleWidget(
-                      image: _FeaturedImages[index],
-                      price: _Price[index],
-                      discount_price: _DiscountPrice[index],
-                    );
+                    return Container(width: 5000, child: Discount());
                   },
                 ),
               ),

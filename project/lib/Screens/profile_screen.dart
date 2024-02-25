@@ -17,6 +17,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 UserData currentuserinfo = new UserData();
+
 TextEditingController _addressTextController = new TextEditingController();
 TextEditingController _nameTextController = new TextEditingController();
 
@@ -36,6 +37,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Center(
               child: UserProfileAvatar(
                 avatarUrl: 'https://picsum.photos/id/237/5000/5000',
+
+                // 'https://picsum.photos/id/237/5000/5000'
                 onAvatarTap: () {
                   print('Avatar Tapped..');
                 },

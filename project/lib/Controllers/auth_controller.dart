@@ -3,19 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthController {
   Future<String> signUpUser(String mobileNumber, String displayName,
-      String email, String password) async {
+      String email, String password, String imageUrl) async {
     String res = 'some error occured';
     try {
       if (email.isNotEmpty &&
           password.isNotEmpty &&
           displayName.isNotEmpty &&
-          mobileNumber.isNotEmpty) {
+          mobileNumber.isNotEmpty &&
+          imageUrl.isNotEmpty) {
         UserCredential cred = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
         FirebaseFirestore.instance.collection('users').doc(cred.user!.uid).set({
           'displayName': displayName,
           'mobileNumber': mobileNumber,
-          'email': email
+          'email': email,
+          'imageUrl': imageUrl
         });
         res = 'success';
       }

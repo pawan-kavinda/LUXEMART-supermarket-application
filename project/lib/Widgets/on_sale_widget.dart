@@ -1,4 +1,9 @@
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Controllers/user_data.dart';
 
 class OnSaleWidget extends StatefulWidget {
   const OnSaleWidget(

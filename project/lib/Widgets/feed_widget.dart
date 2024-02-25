@@ -5,85 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Controllers/user_data.dart';
 
-// class FeedWidget extends StatefulWidget {
-//   const FeedWidget({super.key});
-
-//   @override
-//   State<FeedWidget> createState() => _FeedWidgetState();
-// }
-
-// class _FeedWidgetState extends State<FeedWidget> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Material(
-//         borderRadius: BorderRadius.circular(12),
-//         child: InkWell(
-//             borderRadius: BorderRadius.circular(12),
-//             onTap: () {},
-//             child: Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 children: [
-//                   Row(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Image.asset(
-//                         'assets/Images/cabbage.jpg',
-//                         height: 80,
-//                         fit: BoxFit.fill,
-//                       ),
-//                       Column(
-//                         children: [
-//                           Text(
-//                             "Large",
-//                             style: TextStyle(
-//                               fontSize: 22,
-//                             ),
-//                           ),
-//                           const SizedBox(
-//                             height: 6,
-//                           ),
-//                           // Row(
-//                           //   children: [
-//                           //     GestureDetector(
-//                           //       onTap: () {},
-//                           //       child: Icon(
-//                           //         IconlyBold.bag,
-//                           //         size: 22,
-//                           //       ),
-//                           //     ),
-//                           //     HeartBTN(),
-//                           //   ],
-//                           // ),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
-//                   // PriceWidget(
-//                   //   isOnSale: true,
-//                   //   price: 5,
-//                   //   salePrice: 2,
-//                   //   textPrice: "1",
-//                   // ),
-//                   const SizedBox(
-//                     height: 5,
-//                   ),
-//                   Text(
-//                     "Product title",
-//                     style: TextStyle(fontSize: 16),
-//                   )
-//                 ],
-//               ),
-//             )),
-//       ),
-//     );
-//   }
-// }
-
 class FeedWidget extends StatefulWidget {
   const FeedWidget({super.key});
 
@@ -166,7 +87,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -177,11 +98,12 @@ class _FeedWidgetState extends State<FeedWidget> {
                                 //   textPrice: _quantityTextController.text,
                                 // ),
                                 SizedBox(
-                                  width: 8,
+                                  width: 4,
                                 ),
                               ],
                             ),
                           ),
+                          Text(price.toString()),
                           Spacer(),
                           SizedBox(
                             width: double.infinity,
