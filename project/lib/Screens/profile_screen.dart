@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project/Controllers/user_data.dart';
+import 'package:project/Screens/InnerScreens/favourite_screen.dart';
 import 'package:project/Screens/login_screen.dart';
 import 'package:project/Controllers/auth_controller.dart';
 import 'package:user_profile_avatar/user_profile_avatar.dart';
@@ -119,7 +120,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               leading: Icon(Icons.heart_broken),
               trailing: Icon(Icons.back_hand),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FavouriteScreen()),
+                );
+              },
             ),
             ListTile(
               title: Text(

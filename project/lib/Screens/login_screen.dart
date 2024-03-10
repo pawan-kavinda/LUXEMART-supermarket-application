@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/Controllers/auth_controller.dart';
 import 'package:project/Screens/bottom_bar_screen.dart';
+import 'package:project/Screens/registration_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -39,6 +40,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => BottomBarScreen()),
+                );
+              } else {
+                _showLoginErrorDialog();
+              }
+            },
+            child: Text("Login"),
+          ),
+          Text('Dont have an account? Click Register button below'),
+          TextButton(
+            onPressed: () async {
+              String res = await _authController.signInUser(
+                  _emailController!.text, _passwordController!.text);
+              if (res == 'Successfully logged in') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegistrationScreen()),
                 );
               } else {
                 _showLoginErrorDialog();

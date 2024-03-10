@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:project/Widgets/inner_screen_widget.dart';
 
@@ -53,7 +55,7 @@ class CategoryScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              InnerWidget(innerproduct: 'vegitable')),
+                              InnerWidget(innerproduct: 'Vegitables')),
                     );
                   },
                 ),
@@ -75,7 +77,14 @@ class CategoryScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              InnerWidget(innerproduct: 'Meat')),
+                    );
+                  },
                 ),
                 InkWell(
                   child: Column(
@@ -92,7 +101,14 @@ class CategoryScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              InnerWidget(innerproduct: 'Drinks')),
+                    );
+                  },
                 ),
                 InkWell(
                   child: Column(
@@ -109,7 +125,14 @@ class CategoryScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              InnerWidget(innerproduct: 'Desert')),
+                    );
+                  },
                 ),
                 InkWell(
                   child: Column(
@@ -126,7 +149,14 @@ class CategoryScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              InnerWidget(innerproduct: 'Snacks')),
+                    );
+                  },
                 ),
                 InkWell(
                   child: Column(
@@ -143,7 +173,14 @@ class CategoryScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              InnerWidget(innerproduct: 'Educational ')),
+                    );
+                  },
                 ),
                 InkWell(
                   child: Column(
@@ -160,7 +197,14 @@ class CategoryScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              InnerWidget(innerproduct: 'Beauty')),
+                    );
+                  },
                 ),
               ],
             )));

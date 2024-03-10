@@ -18,6 +18,10 @@ class _InnerWidgetState extends State<InnerWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        title: Text(widget.innerproduct),
+      ),
       body: StreamBuilder(
           //methana wenas karapan constructor ekata category eka pass karaddi screen eka wenas wenna
           stream: _productstream
@@ -59,8 +63,8 @@ class _InnerWidgetState extends State<InnerWidget> {
                         onTap: () {},
                         borderRadius: BorderRadius.circular(12),
                         child: Column(children: [
-                          Image.asset(
-                            'assets/Images/beauty.jpg',
+                          Image.network(
+                            imgUrl,
                             height: 80,
                             fit: BoxFit.fill,
                           ),
@@ -70,9 +74,12 @@ class _InnerWidgetState extends State<InnerWidget> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  title,
-                                  style: TextStyle(fontSize: 13),
+                                Container(
+                                  width: 150,
+                                  child: Text(
+                                    title,
+                                    style: TextStyle(fontSize: 13),
+                                  ),
                                 ),
                                 // GestureDetector(
                                 //     onTap: () {
@@ -104,7 +111,7 @@ class _InnerWidgetState extends State<InnerWidget> {
                               ],
                             ),
                           ),
-                          Spacer(),
+                          //Spacer(),
                           SizedBox(
                             width: double.infinity,
                             child: TextButton(

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:project/Controllers/user_data.dart';
 
 class FeedWidget extends StatefulWidget {
@@ -33,7 +34,7 @@ class _FeedWidgetState extends State<FeedWidget> {
 
             return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 350 / 360),
+                    crossAxisCount: 2, childAspectRatio: 330 / 360),
                 itemCount: docs.length,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> data =
@@ -55,92 +56,113 @@ class _FeedWidgetState extends State<FeedWidget> {
                       borderRadius: BorderRadius.circular(12),
                       color: Theme.of(context).cardColor,
                       child: InkWell(
+                        hoverColor: Colors.amber,
                         onTap: () {},
                         borderRadius: BorderRadius.circular(12),
-                        child: Column(children: [
-                          Image.asset(
-                            'assets/Images/beauty.jpg',
-                            height: 80,
-                            fit: BoxFit.fill,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  title,
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                                // GestureDetector(
-                                //     onTap: () {
-                                //       favouriteItems.returntitle(title);
-                                //       favouriteItems.returnPrice(discountprice);
-                                //       favouriteItems.returnImg(imgUrl);
-                                //     },
-                                //     child: Icon(
-                                //       IconlyLight.heart,
-                                //       size: 22,
-                                //     ))
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // PriceWidget(
-                                //   isOnSale: true,
-                                //   price: price,
-                                //   salePrice: discountprice,
-                                //   textPrice: _quantityTextController.text,
-                                // ),
-                                SizedBox(
-                                  width: 4,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Text(price.toString()),
-                          Spacer(),
-                          SizedBox(
-                            width: double.infinity,
-                            child: TextButton(
-                              onPressed: () async {
-                                User? user = FirebaseAuth.instance.currentUser;
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.network(
+                                        imgUrl,
+                                        height: 80,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                        onTap: () async {
+                                          User? user =
+                                              FirebaseAuth.instance.currentUser;
 
-                                await FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(user!.uid)
-                                    .collection('cart')
-                                    .add(data);
-
-                                // cartItems.returntitle(title);
-                                // cartItems.returnPrice(discountprice);
-                                // cartItems.returnImg(imgUrl);
-                              },
-                              child: Text(
-                                "Add to cart",
-                                maxLines: 1,
-                                style: TextStyle(fontSize: 15),
+                                          await FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc(user!.uid)
+                                              .collection('favourite')
+                                              .add(data);
+                                        },
+                                        child: Icon(
+                                          IconlyLight.heart,
+                                          size: 22,
+                                        ))
+                                  ],
+                                ),
                               ),
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Theme.of(context).cardColor),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(12.0),
-                                              bottomRight:
-                                                  Radius.circular(12.0))))),
-                            ),
-                          )
-                        ]),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 1),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: 150,
+                                      child: Text(
+                                        title,
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.all(4.0),
+                              //   child: Row(
+                              //     mainAxisAlignment:
+                              //         MainAxisAlignment.spaceBetween,
+                              //     children: [
+                              //       // PriceWidget(
+                              //       //   isOnSale: true,
+                              //       //   price: price,
+                              //       //   salePrice: discountprice,
+                              //       //   textPrice: _quantityTextController.text,
+                              //       // ),
+                              //       SizedBox(
+                              //         width: 4,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              Text(price.toString()),
+                              Spacer(),
+                              SizedBox(
+                                width: double.infinity,
+                                child: TextButton(
+                                  onPressed: () async {
+                                    User? user =
+                                        FirebaseAuth.instance.currentUser;
+
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(user!.uid)
+                                        .collection('cart')
+                                        .add(data);
+                                  },
+                                  child: Text(
+                                    "Add to cart",
+                                    maxLines: 1,
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context).cardColor),
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(12.0),
+                                                  bottomRight:
+                                                      Radius.circular(12.0))))),
+                                ),
+                              )
+                            ]),
                       ),
                     ),
                   );

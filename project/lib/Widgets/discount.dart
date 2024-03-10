@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:project/Controllers/user_data.dart';
 
 class Discount extends StatefulWidget {
@@ -16,6 +17,8 @@ class _DiscountState extends State<Discount> {
   final _productstream =
       FirebaseFirestore.instance.collection('products').snapshots();
   UserData currentUser = new UserData();
+
+  late List<bool> isLiked = [false, false, false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -75,17 +78,31 @@ class _DiscountState extends State<Discount> {
                           child: Column(children: [
                             Row(
                               children: [
-                                Image.asset(
-                                  'assets/Images/beauty.jpg',
-                                  height: 60,
-                                  width: 60,
+                                Image.network(
+                                  imgUrl,
+                                  height: 80,
                                   fit: BoxFit.fill,
                                 ),
                                 GestureDetector(
-                                    onTap: () {},
+                                    onTap: () async {
+                                      User? user =
+                                          FirebaseAuth.instance.currentUser;
+
+                                      await FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(user!.uid)
+                                          .collection('favourite')
+                                          .add(data);
+                                      setState(() {
+                                        isLiked[index] = !isLiked[index];
+                                      });
+                                    },
                                     child: Icon(
-                                      Icons.heart_broken,
-                                      size: 18,
+                                      isLiked[index]
+                                          ? IconlyBold.heart
+                                          : IconlyLight.heart,
+                                      size: 22,
+                                      color: isLiked[index] ? Colors.red : null,
                                     ))
                               ],
                             ),

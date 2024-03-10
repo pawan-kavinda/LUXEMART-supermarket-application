@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:project/Screens/add_products_screen.dart';
+import 'package:project/Screens/google_map_screen.dart';
 import 'package:project/Screens/profile_screen.dart';
 import 'package:project/Screens/user_screen.dart';
 import 'package:project/Screens/category_screen.dart';
@@ -18,7 +20,9 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   final List _pages = [
     const HomeScreen(),
     const CategoryScreen(),
-    const ProfileScreen(),
+    //const ProfileScreen(),
+    const AddFood()
+    //const MapScreen()
   ];
 
   void _selectedPage(int index) {
@@ -32,12 +36,15 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-          onTap: _selectedPage,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.menu), label: "Category"),
-            BottomNavigationBarItem(icon: Icon(Icons.info), label: "Profile"),
-          ]),
+        onTap: _selectedPage,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.menu), label: "Category"),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: "Profile"),
+          // BottomNavigationBarItem(icon: Icon(Icons.alarm), label: "Map"),
+        ],
+        backgroundColor: Colors.amberAccent,
+      ),
     );
   }
 }

@@ -43,7 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.menu),
+        leading: Image.asset(
+          'assets/Images/carrot.jpg',
+        ),
         title: Row(
           children: [
             Expanded(

@@ -1,43 +1,17 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project/Controllers/products.dart';
 import 'package:project/Controllers/user_data.dart';
 
-class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+class FavouriteScreen extends StatefulWidget {
+  const FavouriteScreen({super.key});
 
   @override
-  State<CartScreen> createState() => _CartScreenState();
+  State<FavouriteScreen> createState() => _FavouriteScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
-  List<int> priceList = [];
-  int totalpp = 0;
-
+class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getPrice();
-  }
-
-  // Future<void> setPrice() async {
-  //   List<int> setPriceList = await getPrice();
-  //   setState(() {
-  //     priceList = setPriceList;
-  //   });
-  // }
-
-  // void totalPrice() {
-  //   for (int i = 0; i < priceList.length; i++) {
-  //     total = total + priceList[i] as int;
-  //     print(total);
-  //   }
-  // }
-
   User? user = FirebaseAuth.instance.currentUser;
   final _cartProductStream = FirebaseFirestore.instance.collection('users');
 
@@ -49,28 +23,17 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-          child: Text('Cart Screen'),
+          child: Text('Favourite Screen'),
         ),
         backgroundColor: Colors.lightGreenAccent,
         titleTextStyle: TextStyle(
             fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),
       ),
-      bottomNavigationBar: Row(
-        children: [
-          Text(
-            "Total Amount",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 0),
-            child: Text('Rs.${totalpp}',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ),
-        ],
-      ),
       body: StreamBuilder(
-          stream:
-              _cartProductStream.doc(user!.uid).collection('cart').snapshots(),
+          stream: _cartProductStream
+              .doc(user!.uid)
+              .collection('favourite')
+              .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text('Error');
@@ -81,7 +44,7 @@ class _CartScreenState extends State<CartScreen> {
             var docs = snapshot.data;
 
             if (docs == null || docs.docs.isEmpty) {
-              return const Text('No cart items found');
+              return const Text('No fav items found');
             }
 
             List<Map<String, dynamic>> cartItems =
@@ -225,16 +188,5 @@ class _CartScreenState extends State<CartScreen> {
                 });
           }),
     );
-  }
-
-  void getPrice() async {
-    List<int> priceList = await currentUser.getCurrentUserCartData();
-    int newtotal = 0;
-    for (int i = 0; i < priceList.length; i++) {
-      newtotal = newtotal + priceList[i];
-    }
-    setState(() {
-      totalpp = newtotal;
-    });
   }
 }
