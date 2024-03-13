@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: Text('Favourite Screen'),
         ),
         backgroundColor: Colors.lightGreenAccent,
@@ -44,7 +46,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             var docs = snapshot.data;
 
             if (docs == null || docs.docs.isEmpty) {
-              return const Text('No fav items found');
+              return Center(
+                  child: const Text(
+                'Whishlist is Empty',
+                style: TextStyle(fontSize: 30),
+              ));
             }
 
             List<Map<String, dynamic>> cartItems =
@@ -76,9 +82,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                         onTap: () {},
                         borderRadius: BorderRadius.circular(12),
                         child: Row(children: [
-                          Image.asset(
-                            'assets/Images/beauty.jpg',
-                            height: 130,
+                          Image.network(
+                            imgUrl,
+                            height: 80,
                             fit: BoxFit.fill,
                           ),
                           Padding(

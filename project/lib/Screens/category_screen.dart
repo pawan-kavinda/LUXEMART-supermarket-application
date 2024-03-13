@@ -9,7 +9,7 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(5.0),
         child: Scaffold(
             appBar: AppBar(
               leading: Icon(Icons.menu),
@@ -36,6 +36,11 @@ class CategoryScreen extends StatelessWidget {
               crossAxisCount: 2,
               children: <Widget>[
                 InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  focusColor: Colors.amber,
+                  splashColor: Colors.green,
+                  hoverColor: Colors.amber,
+                  highlightColor: Colors.green,
                   child: Column(
                     children: [
                       const Text(
@@ -60,8 +65,9 @@ class CategoryScreen extends StatelessWidget {
                   },
                 ),
                 InkWell(
+                  splashColor: Colors.brown,
                   borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+                    Radius.circular(30),
                   ),
                   child: Column(
                     children: [
@@ -87,6 +93,8 @@ class CategoryScreen extends StatelessWidget {
                   },
                 ),
                 InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  splashColor: Colors.blue,
                   child: Column(
                     children: [
                       const Text(
@@ -111,6 +119,8 @@ class CategoryScreen extends StatelessWidget {
                   },
                 ),
                 InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  splashColor: Colors.orange,
                   child: Column(
                     children: [
                       const Text(
@@ -135,6 +145,8 @@ class CategoryScreen extends StatelessWidget {
                   },
                 ),
                 InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  splashColor: Colors.lightBlue,
                   child: Column(
                     children: [
                       const Text(
@@ -159,6 +171,8 @@ class CategoryScreen extends StatelessWidget {
                   },
                 ),
                 InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  splashColor: Colors.red,
                   child: Column(
                     children: [
                       const Text(
@@ -183,6 +197,8 @@ class CategoryScreen extends StatelessWidget {
                   },
                 ),
                 InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  splashColor: Colors.pink,
                   child: Column(
                     children: [
                       const Text(

@@ -21,49 +21,63 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        leading: Image.asset('assets/Images/carrot.jpg'),
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "SIGN IN TO LUXEMART",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                fontStyle: FontStyle.normal),
+          ),
+        ),
       ),
-      body: Column(
-        children: [
-          TextFormField(
-            controller: _emailController,
-            decoration: InputDecoration(hintText: "Email address"),
-          ),
-          TextFormField(
-              controller: _passwordController,
-              decoration: InputDecoration(hintText: "Password")),
-          TextButton(
-            onPressed: () async {
-              String res = await _authController.signInUser(
-                  _emailController!.text, _passwordController!.text);
-              if (res == 'Successfully logged in') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BottomBarScreen()),
-                );
-              } else {
-                _showLoginErrorDialog();
-              }
-            },
-            child: Text("Login"),
-          ),
-          Text('Dont have an account? Click Register button below'),
-          TextButton(
-            onPressed: () async {
-              String res = await _authController.signInUser(
-                  _emailController!.text, _passwordController!.text);
-              if (res == 'Successfully logged in') {
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50),
+        child: Column(
+          children: [
+            TextFormField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                  hintText: "Email address",
+                  hintStyle: TextStyle(color: Colors.green)),
+            ),
+            TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                    hintText: "Password",
+                    hintStyle: TextStyle(color: Colors.green))),
+            TextButton(
+              onPressed: () async {
+                String res = await _authController.signInUser(
+                    _emailController!.text, _passwordController!.text);
+                if (res == 'Successfully logged in') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BottomBarScreen()),
+                  );
+                } else {
+                  _showLoginErrorDialog();
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Text("Login"),
+              ),
+            ),
+            Text('Dont have an account? Click Register button below'),
+            TextButton(
+              onPressed: () async {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => RegistrationScreen()),
                 );
-              } else {
-                _showLoginErrorDialog();
-              }
-            },
-            child: Text("Login"),
-          )
-        ],
+              },
+              child: Text("Register"),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -17,6 +17,7 @@ class _FeedWidgetState extends State<FeedWidget> {
   final _productstream =
       FirebaseFirestore.instance.collection('products').snapshots();
   UserData currentUser = new UserData();
+  List isLiked = List.generate(100, (index) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -56,39 +57,60 @@ class _FeedWidgetState extends State<FeedWidget> {
                       borderRadius: BorderRadius.circular(12),
                       color: Theme.of(context).cardColor,
                       child: InkWell(
-                        hoverColor: Colors.amber,
+                        splashColor: Color.fromARGB(255, 203, 247, 203),
                         onTap: () {},
                         borderRadius: BorderRadius.circular(12),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Center(
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Image.network(
-                                        imgUrl,
-                                        height: 80,
-                                        fit: BoxFit.fill,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.network(
+                                          imgUrl,
+                                          height: 80,
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                        onTap: () async {
-                                          User? user =
-                                              FirebaseAuth.instance.currentUser;
+                                      GestureDetector(
+                                          onTap: () async {
+                                            User? user = FirebaseAuth
+                                                .instance.currentUser;
+                                            bool isAlreadyInFavorites =
+                                                await isProductInFavorites(
+                                                    user!.uid, data);
+                                            //if product not in favourite yet
+                                            if (!isAlreadyInFavorites) {
+                                              await FirebaseFirestore.instance
+                                                  .collection('users')
+                                                  .doc(user!.uid)
+                                                  .collection('favourite')
+                                                ..add(data);
+                                            } else {
+                                              //if it is in gavourite remove it
+                                              removeProductFromFavorites(
+                                                  user!.uid, data);
+                                            }
 
-                                          await FirebaseFirestore.instance
-                                              .collection('users')
-                                              .doc(user!.uid)
-                                              .collection('favourite')
-                                              .add(data);
-                                        },
-                                        child: Icon(
-                                          IconlyLight.heart,
-                                          size: 22,
-                                        ))
-                                  ],
+                                            setState(() {
+                                              isLiked[index] = !isLiked[index];
+                                            });
+                                          },
+                                          child: Icon(
+                                            isLiked[index]
+                                                ? IconlyBold.heart
+                                                : IconlyLight.heart,
+                                            size: 22,
+                                            color: isLiked[index]
+                                                ? Colors.red
+                                                : null,
+                                          ))
+                                    ],
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -126,7 +148,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                               //     ],
                               //   ),
                               // ),
-                              Text(price.toString()),
+                              Text('Rs.${price.toString()}'),
                               Spacer(),
                               SizedBox(
                                 width: double.infinity,
@@ -169,5 +191,32 @@ class _FeedWidgetState extends State<FeedWidget> {
                 });
           }),
     );
+  }
+
+  Future<bool> isProductInFavorites(
+      String userId, Map<String, dynamic> productData) async {
+    QuerySnapshot favorites = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('favourite')
+        .where('title', isEqualTo: productData['title'])
+        // Add more conditions if needed for uniqueness
+        .get();
+
+    return favorites.docs.isNotEmpty;
+  }
+
+  Future<void> removeProductFromFavorites(
+      String userId, Map<String, dynamic> productData) async {
+    QuerySnapshot favorites = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('favourite')
+        .where('title', isEqualTo: productData['title'])
+        .get();
+
+    for (QueryDocumentSnapshot doc in favorites.docs) {
+      await doc.reference.delete();
+    }
   }
 }

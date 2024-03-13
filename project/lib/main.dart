@@ -7,6 +7,7 @@ import 'package:project/Screens/google_map_screen.dart';
 import 'package:project/Screens/home_screen.dart';
 import 'package:project/Screens/login_screen.dart';
 import 'package:project/Screens/registration_screen.dart';
+import 'package:project/Screens/starter_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 29, 231, 39)),
         useMaterial3: true,
       ),
-      home: BottomBarScreen(),
+      home: StarterPage(),
     );
   }
 }

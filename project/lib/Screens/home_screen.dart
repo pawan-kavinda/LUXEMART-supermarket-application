@@ -2,6 +2,7 @@
 
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:project/Screens/InnerScreens/cart_screen.dart';
 import 'package:project/Widgets/discount.dart';
 import 'package:project/Widgets/feed_widget.dart';
@@ -86,14 +87,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "FEATURED PRODUCTS",
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontFamily: AutofillHints.familyName,
-                    fontWeight: FontWeight.bold,
-                  ),
+                padding: const EdgeInsets.only(left: 75, top: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      "FEATURED PRODUCTS",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 7),
+                        fontStyle: FontStyle.normal,
+                        fontSize: 20,
+                        fontFamily: AutofillHints.familyName,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Icon(
+                        IconlyBold.discount,
+                        color: const Color.fromARGB(255, 111, 24, 17),
+                      ),
+                    )
+                  ],
                 ),
               ),
               SizedBox(
@@ -108,13 +122,29 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "ALL PRODUCTS",
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontFamily: AutofillHints.familyName,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 100),
+                      child: Text(
+                        "ALL PRODUCTS",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 7),
+                          fontStyle: FontStyle.normal,
+                          fontSize: 20,
+                          fontFamily: AutofillHints.familyName,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Icon(
+                        IconlyBold.bag2,
+                        color: const Color.fromARGB(255, 111, 24, 17),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               GridView.count(

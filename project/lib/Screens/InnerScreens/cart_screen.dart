@@ -81,7 +81,11 @@ class _CartScreenState extends State<CartScreen> {
             var docs = snapshot.data;
 
             if (docs == null || docs.docs.isEmpty) {
-              return const Text('No cart items found');
+              return Center(
+                  child: const Text(
+                'No cart items found',
+                style: TextStyle(fontSize: 30),
+              ));
             }
 
             List<Map<String, dynamic>> cartItems =
@@ -113,9 +117,9 @@ class _CartScreenState extends State<CartScreen> {
                         onTap: () {},
                         borderRadius: BorderRadius.circular(12),
                         child: Row(children: [
-                          Image.asset(
-                            'assets/Images/beauty.jpg',
-                            height: 130,
+                          Image.network(
+                            imgUrl,
+                            height: 80,
                             fit: BoxFit.fill,
                           ),
                           Padding(
@@ -138,7 +142,7 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 1, vertical: 30),
+                                      horizontal: 1, vertical: 20),
                                   child: Container(
                                     width: 100,
                                     child: Text(

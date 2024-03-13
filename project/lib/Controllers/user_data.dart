@@ -12,7 +12,6 @@ class UserData {
         .get();
 
     Map<String, dynamic>? userData = snapshot.data();
-
     return userData ?? {};
   }
 

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -17,27 +18,32 @@ class _MapScreenState extends State<MapScreen> {
   LatLng? _currentPosition;
   final Completer<GoogleMapController> googleMapCompleteController =
       Completer<GoogleMapController>();
+  //late StreamSubscription<LocationData>? locationSubscription;
   @override
   void initState() {
     super.initState();
+    //prevent update location continously
+    //locationSubscription = null;
     getLocationData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(),
         body: _currentPosition == null
             ? Center(
                 child: Text("Loading...."),
               )
             : GoogleMap(
-                // mapType: MapType.normal,
+                mapType: MapType.normal,
                 // myLocationButtonEnabled: true,
                 initialCameraPosition: CameraPosition(
                     bearing: 192.8334901395799,
                     target: LatLng(_currentPosition!.latitude,
                         _currentPosition!.longitude),
-                    //tilt: 59.440717697143555,
+                    //target: LatLng(6.053519, 80.220978),
+                    tilt: 59.440717697143555,
                     zoom: 15),
                 onMapCreated: (GoogleMapController mapController) {
                   googleMapCompleteController.complete(mapController);
@@ -72,6 +78,7 @@ class _MapScreenState extends State<MapScreen> {
         return;
       }
     }
+
     locationController.onLocationChanged.listen((LocationData currentLocation) {
       if (currentLocation.latitude != null &&
           currentLocation.longitude != null) {
@@ -79,8 +86,18 @@ class _MapScreenState extends State<MapScreen> {
           _currentPosition =
               LatLng(currentLocation.latitude!, currentLocation.longitude!);
         });
-        print(currentLocation);
       }
     });
+    // locationSubscription = locationController.onLocationChanged
+    //     .listen((LocationData currentLocation) {
+    //   if (currentLocation.latitude != null &&
+    //       currentLocation.longitude != null) {
+    //     setState(() {
+    //       _currentPosition =
+    //           LatLng(currentLocation.latitude!, currentLocation.longitude!);
+    //     });
+    //     print(currentLocation);
+    //   }
+    // });
   }
 }
