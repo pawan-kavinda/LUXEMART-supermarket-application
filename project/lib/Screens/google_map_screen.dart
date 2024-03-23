@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -18,6 +19,7 @@ class _MapScreenState extends State<MapScreen> {
   LatLng? _currentPosition;
   final Completer<GoogleMapController> googleMapCompleteController =
       Completer<GoogleMapController>();
+  bool? _isWithinRange;
   //late StreamSubscription<LocationData>? locationSubscription;
   @override
   void initState() {
@@ -25,12 +27,20 @@ class _MapScreenState extends State<MapScreen> {
     //prevent update location continously
     //locationSubscription = null;
     getLocationData();
+    //checkRange();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.abc),
+            onPressed: () {
+              print(_isWithinRange);
+            },
+          ),
+        ),
         body: _currentPosition == null
             ? Center(
                 child: Text("Loading...."),
@@ -55,6 +65,21 @@ class _MapScreenState extends State<MapScreen> {
                       position: _currentPosition!)
                 },
               ));
+  }
+
+  Future<void> checkRange() async {
+    if (_currentPosition != null) {
+      double d = Geolocator.distanceBetween(6.053519, 80.220978,
+          _currentPosition!.latitude, _currentPosition!.longitude);
+
+      setState(() {
+        if (d < 100000) {
+          _isWithinRange = true;
+        } else {
+          _isWithinRange = false;
+        }
+      });
+    }
   }
 
   Future<void> getLocationData() async {
@@ -85,6 +110,7 @@ class _MapScreenState extends State<MapScreen> {
         setState(() {
           _currentPosition =
               LatLng(currentLocation.latitude!, currentLocation.longitude!);
+          checkRange();
         });
       }
     });

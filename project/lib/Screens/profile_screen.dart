@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/Controllers/user_data.dart';
 import 'package:project/Screens/InnerScreens/favourite_screen.dart';
 import 'package:project/Screens/google_map_screen.dart';
@@ -268,39 +269,90 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  // Future<void> _showLogoutDialog() async {
+  //   await showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           title: Row(
+  //             children: const [
+  //               Text("Log Out"),
+  //             ],
+  //           ),
+  //           content: const Text("Do you relly want to Logout?"),
+  //           actions: [
+  //             TextButton(
+  //                 onPressed: () {
+  //                   if (Navigator.canPop(context)) {
+  //                     Navigator.pop(context);
+  //                   }
+  //                 },
+  //                 child: Text(
+  //                   "Cancel",
+  //                 )),
+  //             TextButton(
+  //                 onPressed: () async {
+  //                   await FirebaseAuth.instance.signOut().then((value) => Navigator.pop(context));
+
+  //                   Navigator.push(
+  //                     context,
+  //                     MaterialPageRoute(
+  //                         builder: (context) => const LoginScreen()),
+  //                   );
+  //                 },
+  //                 child: Text("Log Out", style: TextStyle(color: Colors.red))),
+  //           ],
+  //         );
+  //       });
+  // }
   Future<void> _showLogoutDialog() async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Row(
-              children: const [
-                Text("Log Out"),
-              ],
-            ),
-            content: const Text("Do you relly want to Logout?"),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: Text(
-                    "Cancel",
-                  )),
-              TextButton(
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()),
-                    );
-                  },
-                  child: Text("Log Out", style: TextStyle(color: Colors.red))),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Row(
+            children: const [
+              Text("Log Out"),
             ],
-          );
-        });
+          ),
+          content: const Text("Do you really want to Logout?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  final GoogleSignIn googleSignIn = GoogleSignIn();
+                  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+                  // Sign out from Google Sign-In
+                  await googleSignIn.signOut();
+
+                  // Sign out from Firebase Authentication
+                  await firebaseAuth.signOut();
+
+                  // Navigate to login screen
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
+                } catch (e) {
+                  print("Error logging out: $e");
+                }
+              },
+              child: Text("Log Out", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
