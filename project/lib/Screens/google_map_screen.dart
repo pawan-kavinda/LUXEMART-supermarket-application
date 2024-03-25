@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
-import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:project/Controllers/push_notification.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -15,6 +15,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  PushNotification _notification = new PushNotification();
   Location locationController = new Location();
   LatLng? _currentPosition;
   final Completer<GoogleMapController> googleMapCompleteController =
@@ -73,7 +74,7 @@ class _MapScreenState extends State<MapScreen> {
           _currentPosition!.latitude, _currentPosition!.longitude);
 
       setState(() {
-        if (d < 100000) {
+        if (d < 100000000) {
           _isWithinRange = true;
         } else {
           _isWithinRange = false;
@@ -112,6 +113,14 @@ class _MapScreenState extends State<MapScreen> {
               LatLng(currentLocation.latitude!, currentLocation.longitude!);
           checkRange();
         });
+        //map ek on kraddi wtrk notification
+        // if (_isWithinRange == true) {
+        //   PushNotification.showSimpleNotification(
+        //     title: "Don't miss out",
+        //     body: "Awesome deals up to 70% off",
+        //     payload: "",
+        //   );
+        // }
       }
     });
     // locationSubscription = locationController.onLocationChanged

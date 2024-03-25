@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project/Controllers/products.dart';
 import 'package:project/Controllers/user_data.dart';
 
 class CartScreen extends StatefulWidget {

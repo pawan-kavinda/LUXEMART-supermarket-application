@@ -7,8 +7,6 @@ import 'package:project/Screens/InnerScreens/cart_screen.dart';
 import 'package:project/Widgets/discount.dart';
 import 'package:project/Widgets/feed_widget.dart';
 
-import 'package:project/Widgets/on_sale_widget.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
   @override

@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:project/Screens/add_products_screen.dart';
-import 'package:project/Screens/google_map_screen.dart';
 import 'package:project/Screens/profile_screen.dart';
-import 'package:project/Screens/user_screen.dart';
+
 import 'package:project/Screens/category_screen.dart';
 import 'package:project/Screens/home_screen.dart';
 

@@ -47,7 +47,9 @@ dependencies:
   location: ^5.0.3
   flutter_iconly: ^1.0.2
   geolocator: ^11.0.0
-  google_sign_in: ^6.1.6
+  google_sign_in: ^6.1.6  
+  firebase_messaging: ^14.6.8
+  flutter_local_notifications: ^16.1.0
   
   
   
