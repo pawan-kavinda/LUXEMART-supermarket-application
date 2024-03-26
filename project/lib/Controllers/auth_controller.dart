@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController {
@@ -98,5 +99,9 @@ class AuthController {
     } catch (e) {
       return 'Failed to sign in with Google: $e';
     }
+  }
+
+  Future passwordReset(String email) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 }

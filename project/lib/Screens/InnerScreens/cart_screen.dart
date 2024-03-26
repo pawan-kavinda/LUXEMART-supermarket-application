@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_single_cascade_in_expression_statements
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -155,7 +155,14 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           Spacer(),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user!.uid)
+                                  .collection('cart')
+                                  .doc(docs.docs[index].id)
+                                  .delete();
+                            },
                             icon: Icon(Icons.delete),
                           ),
                           Padding(

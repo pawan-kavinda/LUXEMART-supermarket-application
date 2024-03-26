@@ -57,7 +57,8 @@ class _FeedWidgetState extends State<FeedWidget> {
                       borderRadius: BorderRadius.circular(12),
                       color: Theme.of(context).cardColor,
                       child: InkWell(
-                        splashColor: Color.fromARGB(255, 203, 247, 203),
+                        highlightColor: Colors.blue.withOpacity(0.4),
+                        splashColor: Colors.lightGreenAccent.withOpacity(0.4),
                         onTap: () {},
                         borderRadius: BorderRadius.circular(12),
                         child: Column(

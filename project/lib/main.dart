@@ -66,8 +66,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:project/Controllers/push_notification.dart';
+import 'package:project/Screens/bottom_bar_screen.dart';
 import 'package:project/Screens/login_screen.dart';
+import 'package:project/Screens/starter_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,7 +88,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -93,7 +96,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 29, 231, 39)),
         useMaterial3: true,
       ),
-      home: LoginScreen(),
+      home: StarterPage(),
     );
   }
 }

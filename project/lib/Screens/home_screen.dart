@@ -3,6 +3,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:project/Screens/InnerScreens/cart_screen.dart';
 import 'package:project/Widgets/discount.dart';
 import 'package:project/Widgets/feed_widget.dart';
@@ -45,26 +47,21 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: Image.asset(
           'assets/Images/carrot.jpg',
         ),
-        title: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search",
-                  prefixIcon: Icon(Icons.search),
-                ),
+        title: Row(children: [
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Search",
+                prefixIcon: Icon(Icons.search),
               ),
             ),
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CartScreen()),
-                  );
-                },
-                icon: Icon(Icons.shopping_cart))
-          ],
-        ),
+          ),
+          IconButton(
+              onPressed: () {
+                Get.to(() => CartScreen(), transition: Transition.size);
+              },
+              icon: Icon(Icons.shopping_cart))
+        ]),
       ),
       body: SingleChildScrollView(
         child: Padding(

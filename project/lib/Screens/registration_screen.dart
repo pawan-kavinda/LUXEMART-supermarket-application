@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
+import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:project/Screens/login_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +41,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         padding: const EdgeInsets.all(30.0),
         child: Column(
           children: [
+            Lottie.network(
+                'https://lottie.host/089dd67c-dc4a-495b-996f-5f0d82ac5a1d/VoDqDuKyJo.json',
+                width: 200),
             TextFormField(
                 controller: _displayNameController,
                 decoration: InputDecoration(
@@ -94,6 +99,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   // }
                 },
                 child: Text("Google")),
+            TextButton(
+                onPressed: () async {
+                  Get.to(() => LoginScreen(),
+                      transition: Transition.leftToRight);
+                },
+                child: Text("LoginPage")),
             TextButton(
               onPressed: () async {
                 var imageName =

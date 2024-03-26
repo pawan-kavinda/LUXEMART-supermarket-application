@@ -5,9 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/Controllers/user_data.dart';
 import 'package:project/Screens/InnerScreens/favourite_screen.dart';
+import 'package:project/Screens/bottom_bar_screen.dart';
 import 'package:project/Screens/google_map_screen.dart';
 import 'package:project/Screens/login_screen.dart';
 import 'package:project/Controllers/auth_controller.dart';
@@ -32,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: Icon(IconlyLight.profile),
           title: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Text(
@@ -145,11 +148,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   trailing: Icon(Icons.back_hand),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FavouriteScreen()),
-                    );
+                    Get.to(() => FavouriteScreen());
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => FavouriteScreen()),
+                    // );
                   },
                 ),
                 ListTile(

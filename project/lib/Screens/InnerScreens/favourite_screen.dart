@@ -121,7 +121,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           ),
                           Spacer(),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user!.uid)
+                                  .collection('favourite')
+                                  .doc(docs.docs[index].id)
+                                  .delete();
+                            },
                             icon: Icon(Icons.delete),
                           ),
                           Padding(

@@ -104,7 +104,7 @@ class PushNotification {
       position.longitude,
     );
 
-    if (distance < 1900000) {
+    if (distance < 10) {
       sendNotification();
     }
     // Your range checking logic here
