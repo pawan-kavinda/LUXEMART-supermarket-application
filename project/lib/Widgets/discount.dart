@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:project/Controllers/user_data.dart';
+import 'package:project/Providers/whish_list_provider.dart';
+import 'package:provider/provider.dart';
 
 class Discount extends StatefulWidget {
   const Discount({super.key});
@@ -18,10 +20,12 @@ class _DiscountState extends State<Discount> {
       FirebaseFirestore.instance.collection('products').snapshots();
   UserData currentUser = new UserData();
 
-  List<bool> isLiked = [false, false, false, false, false, false];
+  List<bool> isLiked = [];
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<WhishListProvider>(context);
+    isLiked = provider.isLikedList;
     return Scaffold(
       body: StreamBuilder(
           stream: _productstream,
@@ -98,24 +102,30 @@ class _DiscountState extends State<Discount> {
                                             User? user = FirebaseAuth
                                                 .instance.currentUser;
                                             bool isAlreadyInFavorites =
-                                                await isProductInFavorites(
-                                                    user!.uid, data);
+                                                await provider
+                                                    .isProductInFavorites(
+                                                        user!.uid, data, index);
+
                                             //if product not in favourite yet
                                             if (!isAlreadyInFavorites) {
-                                              await FirebaseFirestore.instance
-                                                  .collection('users')
-                                                  .doc(user!.uid)
-                                                  .collection('favourite')
-                                                ..add(data);
+                                              // await FirebaseFirestore.instance
+                                              //     .collection('users')
+                                              //     .doc(user!.uid)
+                                              //     .collection('favourite')
+                                              //   ..add(data);
+                                              provider.addToFavourite(
+                                                  user.uid, data, index);
                                             } else {
                                               //if it is in gavourite remove it
-                                              removeProductFromFavorites(
-                                                  user!.uid, data);
+                                              provider
+                                                  .removeProductFromFavorites(
+                                                      user!.uid, data, index);
                                             }
-
                                             setState(() {
-                                              isLiked[index] = !isLiked[index];
+                                              provider.updateIsLiked(
+                                                  index, !isAlreadyInFavorites);
                                             });
+                                            print(isLiked);
                                           },
                                           child: Icon(
                                             isLiked[index]
@@ -254,30 +264,30 @@ class _DiscountState extends State<Discount> {
   }
 
 //to check favourite item already exists in users whishlist
-  Future<bool> isProductInFavorites(
-      String userId, Map<String, dynamic> productData) async {
-    QuerySnapshot favorites = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .collection('favourite')
-        .where('title', isEqualTo: productData['title'])
-        // Add more conditions if needed for uniqueness
-        .get();
+  // Future<bool> isProductInFavorites(
+  //     String userId, Map<String, dynamic> productData) async {
+  //   QuerySnapshot favorites = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(userId)
+  //       .collection('favourite')
+  //       .where('title', isEqualTo: productData['title'])
+  //       // Add more conditions if needed for uniqueness
+  //       .get();
 
-    return favorites.docs.isNotEmpty;
-  }
+  //   return favorites.docs.isNotEmpty;
+  // }
 
-  Future<void> removeProductFromFavorites(
-      String userId, Map<String, dynamic> productData) async {
-    QuerySnapshot favorites = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .collection('favourite')
-        .where('title', isEqualTo: productData['title'])
-        .get();
+  // Future<void> removeProductFromFavorites(
+  //     String userId, Map<String, dynamic> productData) async {
+  //   QuerySnapshot favorites = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(userId)
+  //       .collection('favourite')
+  //       .where('title', isEqualTo: productData['title'])
+  //       .get();
 
-    for (QueryDocumentSnapshot doc in favorites.docs) {
-      await doc.reference.delete();
-    }
-  }
+  //   for (QueryDocumentSnapshot doc in favorites.docs) {
+  //     await doc.reference.delete();
+  //   }
+  // }
 }

@@ -71,14 +71,31 @@
 //   }
 // }
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 
+Future _firebaseBackgroundMessage(RemoteMessage message) async {
+  if (message.notification != null) {
+    print("some notification recieved");
+  }
+}
+
 class PushNotification {
+  static final _firebaseMessaging = FirebaseMessaging.instance;
   static final FlutterLocalNotificationsPlugin
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
+    await _firebaseMessaging.requestPermission(
+        alert: true,
+        announcement: true,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true);
+
     // Initialization code for the local notifications plugin
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -87,16 +104,13 @@ class PushNotification {
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  static void listenForLocationChanges() async {
-//Position position = await Geolocator.getCurrentPosition();
+  static listenForLocationChanges() async {
     Geolocator.getPositionStream().listen((Position position) {
       checkRange(position);
     });
-
-    // Your location change listener code here
   }
 
-  static void checkRange(Position position) {
+  static checkRange(Position position) {
     double distance = Geolocator.distanceBetween(
       6.053519,
       80.220978,
@@ -106,8 +120,8 @@ class PushNotification {
 
     if (distance < 10) {
       sendNotification();
+      // FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
     }
-    // Your range checking logic here
   }
 
   static void sendNotification() async {

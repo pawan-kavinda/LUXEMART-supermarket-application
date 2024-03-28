@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Controllers/user_data.dart';
+import 'package:project/Providers/whish_list_provider.dart';
+import 'package:provider/provider.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
@@ -21,6 +23,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<WhishListProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -122,12 +125,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           Spacer(),
                           IconButton(
                             onPressed: () async {
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(user!.uid)
-                                  .collection('favourite')
-                                  .doc(docs.docs[index].id)
-                                  .delete();
+                              // await FirebaseFirestore.instance
+                              //     .collection('users')
+                              //     .doc(user!.uid)
+                              //     .collection('favourite')
+                              //     .doc(docs.docs[index].id)
+                              //     .delete();
+                              await provider.removeProductFromFavorites(
+                                  user!.uid, data, index);
                             },
                             icon: Icon(Icons.delete),
                           ),

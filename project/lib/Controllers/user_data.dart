@@ -39,4 +39,27 @@ class UserData {
 
     return cartPrices;
   }
+
+  Future<List<String>> getCurrentUserWhishListData() async {
+    User? user = await FirebaseAuth.instance.currentUser;
+
+    QuerySnapshot<Map<String, dynamic>> whishListSnapshot =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .collection('favourite')
+            .get();
+
+    List<String> whishListUid = [];
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> productDoc
+        in whishListSnapshot.docs) {
+      Map<String, dynamic>? productData = productDoc.data();
+      String productId = productDoc.id;
+
+      whishListUid.add(productId);
+    }
+
+    return whishListUid;
+  }
 }

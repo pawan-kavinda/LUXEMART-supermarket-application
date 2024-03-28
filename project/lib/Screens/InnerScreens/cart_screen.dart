@@ -184,51 +184,6 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           Spacer(),
                         ]),
-                        // child: Column(children: [
-                        //   Image.asset(
-                        //     'assets/Images/beauty.jpg',
-                        //     height: 80,
-                        //     fit: BoxFit.fill,
-                        //   ),
-
-                        //   Padding(
-                        //     padding: const EdgeInsets.symmetric(
-                        //         horizontal: 50, vertical: 5),
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         Text(
-                        //           title,
-                        //           style: TextStyle(fontSize: 13),
-                        //         ),
-                        //         Text(price.toString()),
-                        //         IconButton(
-                        //           onPressed: () {},
-                        //           icon: Icon(Icons.delete),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        //   Padding(
-                        //     padding: const EdgeInsets.all(8.0),
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         // PriceWidget(
-                        //         //   isOnSale: true,
-                        //         //   price: price,
-                        //         //   salePrice: discountprice,
-                        //         //   textPrice: _quantityTextController.text,
-                        //         // ),
-                        //         SizedBox(
-                        //           width: 8,
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        //   Spacer(),
-
-                        // ]),
                       ),
                     ),
                   );
