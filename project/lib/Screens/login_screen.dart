@@ -4,9 +4,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project/Controllers/auth_controller.dart';
@@ -29,101 +32,201 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          // Prevent back button from navigating back to login page
-          return false;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            leading: Image.asset('assets/Images/carrot.jpg'),
-            title: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "SIGN IN TO LUXEMART",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    fontStyle: FontStyle.normal),
-              ),
-            ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        leading: Image.asset('assets/Images/carrot.jpg'),
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "SIGN IN TO LUXEMART",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                fontStyle: FontStyle.normal),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50),
-            child: Column(
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
+        child: Column(
+          children: [
+            Lottie.network(
+                'https://lottie.host/2df90989-d241-4ddf-ba31-48e7a4c7416d/4DXyizGhB0.json',
+                width: 250),
+            TextFormField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.email_rounded),
+                  hintText: "Email address",
+                  hintStyle: GoogleFonts.rasa(
+                      color: Colors.green, fontSize: 20, letterSpacing: 2)),
+            ),
+            TextFormField(
+                obscureText: true,
+                controller: _passwordController,
+                decoration: InputDecoration(
+                    prefixIcon: Icon(IconlyBold.lock),
+                    hintText: "Password",
+                    hintStyle: GoogleFonts.rasa(
+                        letterSpacing: 2, color: Colors.green, fontSize: 20))),
+            Row(
               children: [
-                Lottie.network(
-                    'https://lottie.host/2df90989-d241-4ddf-ba31-48e7a4c7416d/4DXyizGhB0.json',
-                    width: 250),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                      hintText: "Email address",
-                      hintStyle: TextStyle(color: Colors.green)),
-                ),
-                TextFormField(
-                    obscureText: true,
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                        hintText: "Password",
-                        hintStyle: TextStyle(color: Colors.green))),
-                Row(
-                  children: [
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: GestureDetector(
-                        onTap: () {
-                          _forgotPasswordDialog();
-                        },
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 15),
+                  child: GestureDetector(
+                    onTap: () {
+                      _forgotPasswordDialog();
+                    },
+                    child: Text(
+                      "Forgot Password?",
+                      style: TextStyle(color: Colors.blue),
                     ),
-                  ],
-                ),
-                TextButton(
-                  onPressed: () async {
-                    String res = await _authController.signInUser(
-                        _emailController!.text, _passwordController!.text);
-                    if (res == 'Successfully logged in') {
-                      Get.to(() => BottomBarScreen(),
-                          transition: Transition.zoom);
-                    } else {
-                      _showLoginErrorDialog();
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Text("Login"),
                   ),
                 ),
-                TextButton(
-                    onPressed: () async {
-                      await signInWithGoogle();
-                      // if (mounted) {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => BottomBarScreen()),
-                      //   );
-                      // }
-                    },
-                    child: Text("Google")),
-                Text('Dont have an account? Click Register button below'),
-                TextButton(
-                  onPressed: () async {
-                    Get.to(() => RegistrationScreen(),
-                        transition: Transition.rightToLeft);
-                  },
-                  child: Text("Register"),
-                )
               ],
             ),
-          ),
-        ));
+            ElevatedButton(
+                onPressed: () async {
+                  String res = await _authController.signInUser(
+                      _emailController!.text, _passwordController!.text);
+                  if (res == 'Successfully logged in') {
+                    Get.to(() => BottomBarScreen(),
+                        transition: Transition.zoom);
+                  } else {
+                    _showLoginErrorDialog();
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    elevation: 20,
+                    shadowColor: Colors.grey,
+                    minimumSize: Size(280, 35)),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 98.0),
+                      child: Icon(IconlyBold.login),
+                    ),
+                    Text(
+                      'Login',
+                      style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                          fontSize: 15),
+                    ),
+                  ],
+                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 20),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await signInWithGoogle();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      elevation: 20,
+                      shadowColor: Colors.grey,
+                      minimumSize: Size(300, 35)),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 95.0),
+                        child: Image.asset(
+                          'assets/Images/google.png',
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                      Text(
+                        'Google',
+                        style: GoogleFonts.lato(
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                            fontSize: 15),
+                      ),
+                    ],
+                  )),
+            ),
+            // TextButton(
+            //   onPressed: () async {
+            //     String res = await _authController.signInUser(
+            //         _emailController!.text, _passwordController!.text);
+            //     if (res == 'Successfully logged in') {
+            //       Get.to(() => BottomBarScreen(), transition: Transition.zoom);
+            //     } else {
+            //       _showLoginErrorDialog();
+            //     }
+            //   },
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(vertical: 5),
+            //     child: Text("Login"),
+            //   ),
+            // ),
+            // TextButton(
+            //     onPressed: () async {
+            //       await signInWithGoogle();
+            //       // if (mounted) {
+            //       //   Navigator.push(
+            //       //     context,
+            //       //     MaterialPageRoute(
+            //       //         builder: (context) => BottomBarScreen()),
+            //       //   );
+            //       // }
+            //     },
+            //     child: Text("Google")),
+            // Text(
+            //   'Dont have an account? Click Here To Register',
+            //   style: GoogleFonts.lato(
+            //       letterSpacing: 1.5,
+            //       fontWeight: FontWeight.bold,
+            //       fontSize: 15),
+            // ),
+            // TextButton(
+            //   onPressed: () async {
+            //     Get.to(() => RegistrationScreen(),
+            //         transition: Transition.rightToLeft);
+            //   },
+            //   child: Text("Register"),
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: RichText(
+                  text: new TextSpan(
+                children: [
+                  new TextSpan(
+                    text: 'Dont have an account? ',
+                    style: new TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  new TextSpan(
+                    text: 'Click Here ',
+                    style: new TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                    recognizer: new TapGestureRecognizer()
+                      ..onTap = () {
+                        Get.to(
+                          () => RegistrationScreen(),
+                        );
+                      },
+                  ),
+                  new TextSpan(
+                    text: 'To Register',
+                    style: new TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _showLoginErrorDialog() async {

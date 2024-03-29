@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/Controllers/user_data.dart';
 import 'package:project/Screens/InnerScreens/favourite_screen.dart';
@@ -36,10 +37,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         appBar: AppBar(
           leading: Icon(IconlyLight.profile),
           title: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Text(
-              'Profile Information',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              'PROFILE INFORMATION',
+              style: GoogleFonts.lato(fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -91,7 +92,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Text(
                                 displayName,
-                                style: TextStyle(fontSize: 24),
+                                style: GoogleFonts.aBeeZee(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
                               ),
                               Spacer(),
                               IconButton(
@@ -113,9 +115,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ListTile(
                   title: Text(
                     'Address',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.aBeeZee(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  subtitle: Text('Address', style: TextStyle(fontSize: 24)),
                   leading: Icon(
                     Icons.verified_user,
                     color: Color.fromARGB(255, 197, 191, 25),
@@ -128,7 +130,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ListTile(
                   title: Text(
                     'Orders',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.aBeeZee(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   leading: Icon(
                     Icons.wallet,
@@ -140,7 +143,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ListTile(
                   title: Text(
                     'Wishlist',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.aBeeZee(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   leading: Icon(
                     IconlyBold.heart,
@@ -148,7 +152,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   trailing: Icon(Icons.back_hand),
                   onTap: () {
-                    Get.to(() => FavouriteScreen());
+                    Get.to(() => FavouriteScreen(),
+                        transition: Transition.size);
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(
@@ -159,7 +164,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ListTile(
                   title: Text(
                     'Viewed',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.aBeeZee(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   leading: Icon(
                     Icons.remove_red_eye,
@@ -171,7 +177,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ListTile(
                   title: Text(
                     'Google Maps',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.aBeeZee(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   leading: Icon(
                     IconlyBold.location,
@@ -189,7 +196,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // ignore: prefer_const_constructors
                   title: Text(
                     'Logout',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.aBeeZee(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   leading: Icon(
                     Icons.logout,

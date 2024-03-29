@@ -131,60 +131,33 @@ class _FeedWidgetState extends State<FeedWidget> {
                                   ],
                                 ),
                               ),
-                              // Padding(
-                              //   padding: const EdgeInsets.all(4.0),
-                              //   child: Row(
-                              //     mainAxisAlignment:
-                              //         MainAxisAlignment.spaceBetween,
-                              //     children: [
-                              //       // PriceWidget(
-                              //       //   isOnSale: true,
-                              //       //   price: price,
-                              //       //   salePrice: discountprice,
-                              //       //   textPrice: _quantityTextController.text,
-                              //       // ),
-                              //       SizedBox(
-                              //         width: 4,
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              Text('Rs.${price.toString()}'),
-                              Spacer(),
-                              SizedBox(
-                                width: double.infinity,
-                                child: TextButton(
-                                  onPressed: () async {
-                                    User? user =
-                                        FirebaseAuth.instance.currentUser;
-
-                                    await FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(user!.uid)
-                                        .collection('cart')
-                                        .add(data);
-                                  },
-                                  child: Text(
-                                    "Add to cart",
-                                    maxLines: 1,
-                                    style: TextStyle(fontSize: 15),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 28.0),
+                                    child: Text('Rs.${price.toString()}'),
                                   ),
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Theme.of(context).cardColor),
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(12.0),
-                                                  bottomRight:
-                                                      Radius.circular(12.0))))),
-                                ),
-                              )
+                                  Spacer(),
+                                  IconButton(
+                                    color: Colors.green,
+                                    onPressed: () async {
+                                      User? user =
+                                          FirebaseAuth.instance.currentUser;
+
+                                      await FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(user!.uid)
+                                          .collection('cart')
+                                          .add(data);
+                                    },
+                                    icon: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 28.0),
+                                      child: Icon(IconlyBold.plus),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ]),
                       ),
                     ),

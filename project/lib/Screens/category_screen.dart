@@ -1,6 +1,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project/Screens/InnerScreens/cart_screen.dart';
 import 'package:project/Widgets/inner_screen_widget.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -19,11 +23,19 @@ class CategoryScreen extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: "Search",
+                        hintStyle: GoogleFonts.akayaTelivigala(
+                            letterSpacing: 2,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                         prefixIcon: Icon(Icons.search),
                       ),
                     ),
                   ),
-                  Icon(Icons.shopping_cart)
+                  IconButton(
+                      onPressed: () {
+                        Get.to(() => CartScreen(), transition: Transition.size);
+                      },
+                      icon: Icon(Icons.shopping_cart))
                 ],
               ),
             ),
@@ -43,14 +55,14 @@ class CategoryScreen extends StatelessWidget {
                   highlightColor: Colors.green,
                   child: Column(
                     children: [
-                      const Text(
-                        "Vegitables",
-                        style: TextStyle(
+                      Text(
+                        "VEGITABLES",
+                        style: GoogleFonts.aBeeZee(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                       Image.asset(
-                        'assets/Images/cabbage.jpg',
-                        width: 120,
+                        'assets/Images/cabbage.gif',
+                        width: 130,
                         height: 120,
                       )
                     ],
@@ -71,13 +83,13 @@ class CategoryScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      const Text(
-                        "Meats",
-                        style: TextStyle(
+                      Text(
+                        "MEATS",
+                        style: GoogleFonts.aBeeZee(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                       Image.asset(
-                        'assets/Images/chicken.jpg',
+                        'assets/Images/meat.gif',
                         width: 120,
                         height: 120,
                       )
@@ -97,13 +109,13 @@ class CategoryScreen extends StatelessWidget {
                   splashColor: Colors.blue,
                   child: Column(
                     children: [
-                      const Text(
-                        "Drinks",
-                        style: TextStyle(
+                      Text(
+                        "BEVERAGES",
+                        style: GoogleFonts.aBeeZee(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                       Image.asset(
-                        'assets/Images/anchor.jpg',
+                        'assets/Images/cocktail.gif',
                         width: 120,
                         height: 120,
                       )
@@ -123,13 +135,13 @@ class CategoryScreen extends StatelessWidget {
                   splashColor: Colors.orange,
                   child: Column(
                     children: [
-                      const Text(
-                        "Deserts",
-                        style: TextStyle(
+                      Text(
+                        "DESERTS",
+                        style: GoogleFonts.aBeeZee(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                       Image.asset(
-                        'assets/Images/carrot.jpg',
+                        'assets/Images/desert.gif',
                         width: 120,
                         height: 120,
                       )
@@ -149,13 +161,13 @@ class CategoryScreen extends StatelessWidget {
                   splashColor: Colors.lightBlue,
                   child: Column(
                     children: [
-                      const Text(
-                        "Snacks",
-                        style: TextStyle(
+                      Text(
+                        "SNACKS",
+                        style: GoogleFonts.aBeeZee(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                       Image.asset(
-                        'assets/Images/snacks.jpg',
+                        'assets/Images/snacks.gif',
                         width: 120,
                         height: 120,
                       )
@@ -175,13 +187,13 @@ class CategoryScreen extends StatelessWidget {
                   splashColor: Colors.red,
                   child: Column(
                     children: [
-                      const Text(
-                        "Educational",
-                        style: TextStyle(
+                      Text(
+                        "EDUCATIONAL",
+                        style: GoogleFonts.aBeeZee(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                       Image.asset(
-                        'assets/Images/educational.jpg',
+                        'assets/Images/book.gif',
                         width: 120,
                         height: 120,
                       )
@@ -201,13 +213,13 @@ class CategoryScreen extends StatelessWidget {
                   splashColor: Colors.pink,
                   child: Column(
                     children: [
-                      const Text(
-                        "Beauty Packs",
-                        style: TextStyle(
+                      Text(
+                        "BEAUTY",
+                        style: GoogleFonts.aBeeZee(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                       Image.asset(
-                        'assets/Images/beauty.jpg',
+                        'assets/Images/beauty.gif',
                         width: 120,
                         height: 120,
                       )

@@ -194,8 +194,13 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => WhishListProvider(),
       child: GetMaterialApp(
-        home: BottomBarScreen(),
-      ),
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: Color.fromARGB(255, 29, 231, 39)),
+            useMaterial3: true,
+          ),
+          home: LoginScreen()),
     );
   }
 }

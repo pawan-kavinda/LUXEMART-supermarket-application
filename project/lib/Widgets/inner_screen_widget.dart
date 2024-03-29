@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InnerWidget extends StatefulWidget {
   // const InnerWidget({super.key});
@@ -19,8 +22,15 @@ class _InnerWidgetState extends State<InnerWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber,
-        title: Text(widget.innerproduct),
+        backgroundColor: Color.fromARGB(255, 151, 177, 139),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 50),
+          child: Text(
+            widget.innerproduct,
+            style: GoogleFonts.aboreto(
+                fontSize: 25, fontWeight: FontWeight.bold, letterSpacing: 2),
+          ),
+        ),
       ),
       body: StreamBuilder(
           //methana wenas karapan constructor ekata category eka pass karaddi screen eka wenas wenna
@@ -65,80 +75,39 @@ class _InnerWidgetState extends State<InnerWidget> {
                         child: Column(children: [
                           Image.network(
                             imgUrl,
-                            height: 80,
+                            height: 120,
                             fit: BoxFit.fill,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
+                                horizontal: 1, vertical: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  width: 150,
+                                  width: 110,
                                   child: Text(
                                     title,
-                                    style: TextStyle(fontSize: 13),
+                                    style: GoogleFonts.lato(fontSize: 16),
                                   ),
                                 ),
-                                // GestureDetector(
-                                //     onTap: () {
-                                //       favouriteItems.returntitle(title);
-                                //       favouriteItems.returnPrice(discountprice);
-                                //       favouriteItems.returnImg(imgUrl);
-                                //     },
-                                //     child: Icon(
-                                //       IconlyLight.heart,
-                                //       size: 22,
-                                //     ))
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // PriceWidget(
-                                //   isOnSale: true,
-                                //   price: price,
-                                //   salePrice: discountprice,
-                                //   textPrice: _quantityTextController.text,
-                                // ),
-                                SizedBox(
-                                  width: 8,
+                                IconButton(
+                                  color: Colors.green,
+                                  onPressed: () async {
+                                    User? user =
+                                        FirebaseAuth.instance.currentUser;
+
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(user!.uid)
+                                        .collection('cart')
+                                        .add(data);
+                                  },
+                                  icon: Icon(IconlyBold.plus),
                                 ),
                               ],
                             ),
                           ),
-                          //Spacer(),
-                          SizedBox(
-                            width: double.infinity,
-                            child: TextButton(
-                              onPressed: () {
-                                // cartItems.returntitle(title);
-                                // cartItems.returnPrice(discountprice);
-                                // cartItems.returnImg(imgUrl);
-                              },
-                              child: Text(
-                                "Add to cart",
-                                maxLines: 1,
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Theme.of(context).cardColor),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(12.0),
-                                              bottomRight:
-                                                  Radius.circular(12.0))))),
-                            ),
-                          )
                         ]),
                       ),
                     ),

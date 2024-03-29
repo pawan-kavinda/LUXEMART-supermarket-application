@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project/Screens/login_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -27,6 +29,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: Image.asset('assets/Images/carrot.jpg'),
         title: Text(
@@ -47,24 +50,45 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             TextFormField(
                 controller: _displayNameController,
                 decoration: InputDecoration(
-                    hintText: "user name",
-                    hintStyle: TextStyle(color: Colors.green))),
+                    hintText: "User Name",
+                    prefixIcon: Icon(IconlyBold.user2),
+                    hintStyle: GoogleFonts.rasa(
+                        letterSpacing: 1.5,
+                        color: Colors.green,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold))),
             TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
                   hintText: "Email address",
-                  hintStyle: TextStyle(color: Colors.green)),
+                  prefixIcon: Icon(Icons.email_sharp),
+                  hintStyle: GoogleFonts.rasa(
+                      letterSpacing: 1.5,
+                      color: Colors.green,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold)),
             ),
             TextFormField(
                 controller: _mobileNumberController,
                 decoration: InputDecoration(
                     hintText: "Mobile number",
-                    hintStyle: TextStyle(color: Colors.green))),
+                    prefixIcon: Icon(IconlyBold.call),
+                    hintStyle: GoogleFonts.rasa(
+                        letterSpacing: 1.5,
+                        color: Colors.green,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold))),
             TextFormField(
+                obscureText: true,
                 controller: _passwordController,
                 decoration: InputDecoration(
                     hintText: "Password",
-                    hintStyle: TextStyle(color: Colors.green))),
+                    prefixIcon: Icon(IconlyBold.password),
+                    hintStyle: GoogleFonts.rasa(
+                        letterSpacing: 1.5,
+                        color: Colors.green,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold))),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton(
@@ -87,47 +111,117 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: Text('Select image'),
               ),
             ),
-            TextButton(
+            // TextButton(
+            //     onPressed: () async {
+            //       await _authController.signInWithGoogle();
+            //       // if (mounted) {
+            //       //   Navigator.push(
+            //       //     context,
+            //       //     MaterialPageRoute(
+            //       //         builder: (context) => BottomBarScreen()),
+            //       //   );
+            //       // }
+            //     },
+            //     child: Text("Google")),
+            // TextButton(
+            //     onPressed: () async {
+            //       Get.to(() => LoginScreen(),
+            //           transition: Transition.leftToRight);
+            //     },
+            //     child: Text("LoginPage")),
+            // TextButton(
+            //   onPressed: () async {
+            //     var imageName =
+            //         DateTime.now().millisecondsSinceEpoch.toString();
+            //     var storageRef = FirebaseStorage.instance
+            //         .ref()
+            //         .child('user_profiles/$imageName.jpg');
+            //     var uploadTask = storageRef.putFile(_image!);
+            //     String downloadUrl =
+            //         await (await uploadTask).ref.getDownloadURL();
+            //     await _authController.signUpUser(
+            //         _mobileNumberController!.text,
+            //         _displayNameController!.text,
+            //         _emailController!.text,
+            //         _passwordController!.text,
+            //         downloadUrl);
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => LoginScreen()),
+            //     );
+            //   },
+            //   child: Text("Submit"),
+            // ),
+            ElevatedButton(
                 onPressed: () async {
-                  await _authController.signInWithGoogle();
-                  // if (mounted) {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => BottomBarScreen()),
-                  //   );
-                  // }
+                  var imageName =
+                      DateTime.now().millisecondsSinceEpoch.toString();
+                  var storageRef = FirebaseStorage.instance
+                      .ref()
+                      .child('user_profiles/$imageName.jpg');
+                  var uploadTask = storageRef.putFile(_image!);
+                  String downloadUrl =
+                      await (await uploadTask).ref.getDownloadURL();
+                  await _authController.signUpUser(
+                      _mobileNumberController!.text,
+                      _displayNameController!.text,
+                      _emailController!.text,
+                      _passwordController!.text,
+                      downloadUrl);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
                 },
-                child: Text("Google")),
-            TextButton(
-                onPressed: () async {
-                  Get.to(() => LoginScreen(),
-                      transition: Transition.leftToRight);
-                },
-                child: Text("LoginPage")),
-            TextButton(
-              onPressed: () async {
-                var imageName =
-                    DateTime.now().millisecondsSinceEpoch.toString();
-                var storageRef = FirebaseStorage.instance
-                    .ref()
-                    .child('user_profiles/$imageName.jpg');
-                var uploadTask = storageRef.putFile(_image!);
-                String downloadUrl =
-                    await (await uploadTask).ref.getDownloadURL();
-                await _authController.signUpUser(
-                    _mobileNumberController!.text,
-                    _displayNameController!.text,
-                    _emailController!.text,
-                    _passwordController!.text,
-                    downloadUrl);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
-              },
-              child: Text("Submit"),
-            )
+                style: ElevatedButton.styleFrom(
+                    elevation: 20,
+                    shadowColor: Colors.grey,
+                    minimumSize: Size(280, 35)),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 83.0),
+                      child: Icon(IconlyBold.login),
+                    ),
+                    Text(
+                      'Register',
+                      style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                          fontSize: 15),
+                    ),
+                  ],
+                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 20),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await _authController.signInWithGoogle();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      elevation: 20,
+                      shadowColor: Colors.grey,
+                      minimumSize: Size(300, 35)),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 88.0),
+                        child: Image.asset(
+                          'assets/Images/google.png',
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                      Text(
+                        'Google',
+                        style: GoogleFonts.lato(
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                            fontSize: 15),
+                      ),
+                    ],
+                  )),
+            ),
           ],
         ),
       ),

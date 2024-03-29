@@ -180,8 +180,7 @@ class _DiscountState extends State<Discount> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 18.0),
+                                    padding: const EdgeInsets.only(left: 18.0),
                                     child: Text('Rs.${price.toString()}',
                                         style: TextStyle(
                                           fontSize: 12,
@@ -189,6 +188,20 @@ class _DiscountState extends State<Discount> {
                                               TextDecoration.lineThrough,
                                           fontWeight: FontWeight.bold,
                                         )),
+                                  ),
+                                  IconButton(
+                                    color: Colors.green,
+                                    onPressed: () async {
+                                      User? user =
+                                          FirebaseAuth.instance.currentUser;
+
+                                      await FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(user!.uid)
+                                          .collection('cart')
+                                          .add(data);
+                                    },
+                                    icon: Icon(IconlyBold.plus),
                                   ),
                                 ],
                               ),
@@ -211,44 +224,6 @@ class _DiscountState extends State<Discount> {
                                 ),
                               ),
                               //Spacer(),
-                              SizedBox(
-                                width: double.infinity,
-                                child: TextButton(
-                                  onPressed: () async {
-                                    User? user =
-                                        FirebaseAuth.instance.currentUser;
-
-                                    await FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(user!.uid)
-                                        .collection('cart')
-                                        .add(data);
-
-                                    // cartItems.returntitle(title);
-                                    // cartItems.returnPrice(discountprice);
-                                    // cartItems.returnImg(imgUrl);
-                                  },
-                                  child: Text(
-                                    "Add to cart",
-                                    maxLines: 1,
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Theme.of(context).cardColor),
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(12.0),
-                                                  bottomRight:
-                                                      Radius.circular(12.0))))),
-                                ),
-                              )
                             ]),
                           ),
                         ),

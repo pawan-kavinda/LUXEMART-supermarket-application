@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  blinking_text:
+    dependency: "direct main"
+    description:
+      name: blinking_text
+      sha256: "3f0c300f9f67ff3455e303a7dea7825bd96965d17295e4e831f29040c0379e69"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -488,6 +496,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      sha256: e20ff62b158b96f392bfc8afe29dee1503c94fbea2cbe8186fd59b756b8ae982
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   google_identity_services_web:
     dependency: transitive
     description:

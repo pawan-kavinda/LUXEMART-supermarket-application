@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project/Screens/InnerScreens/cart_screen.dart';
 import 'package:project/Widgets/discount.dart';
 import 'package:project/Widgets/feed_widget.dart';
+import 'package:blinking_text/blinking_text.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -52,13 +54,17 @@ class _HomeScreenState extends State<HomeScreen> {
             child: TextField(
               decoration: InputDecoration(
                 hintText: "Search",
+                hintStyle: GoogleFonts.akayaTelivigala(
+                    letterSpacing: 2,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
                 prefixIcon: Icon(Icons.search),
               ),
             ),
           ),
           IconButton(
               onPressed: () {
-                Get.to(() => CartScreen(), transition: Transition.size);
+                Get.to(() => CartScreen(), transition: Transition.downToUp);
               },
               icon: Icon(Icons.shopping_cart))
         ]),
@@ -82,16 +88,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 75, top: 10),
+                padding: const EdgeInsets.only(left: 115, top: 10),
                 child: Row(
                   children: [
-                    Text(
-                      "FEATURED PRODUCTS",
-                      style: TextStyle(
+                    BlinkText(
+                      "FLASH DEALS",
+                      beginColor: const Color.fromARGB(255, 0, 0, 0),
+                      endColor: Colors.orange,
+                      style: GoogleFonts.acme(
                         color: Color.fromARGB(255, 0, 0, 7),
                         fontStyle: FontStyle.normal,
+                        letterSpacing: 2,
                         fontSize: 20,
-                        fontFamily: AutofillHints.familyName,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -123,11 +131,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(left: 100),
                       child: Text(
                         "ALL PRODUCTS",
-                        style: TextStyle(
+                        style: GoogleFonts.lato(
                           color: Color.fromARGB(255, 0, 0, 7),
                           fontStyle: FontStyle.normal,
                           fontSize: 20,
-                          fontFamily: AutofillHints.familyName,
+                          letterSpacing: 1,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
