@@ -96,7 +96,7 @@ class PushNotification {
         provisional: false,
         sound: true);
 
-    // Initialization code for the local notifications plugin
+    // Initialization
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     final InitializationSettings initializationSettings =
@@ -127,9 +127,8 @@ class PushNotification {
   static void sendNotification() async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      'your_channel_id', // Change this to a unique channel ID
-      'your_channel_name', // Change this to a unique channel name
-      // 'your_channel_description', // Change this to a unique channel description
+      'your_channel_id',
+      'your_channel_name',
       importance: Importance.max,
       priority: Priority.high,
     );
@@ -137,8 +136,8 @@ class PushNotification {
         NotificationDetails(android: androidPlatformChannelSpecifics);
     await _flutterLocalNotificationsPlugin.show(
       0,
-      'Great Deals', // Change this to your notification title
-      'Hurry up, Daily offers upto 80%', // Change this to your notification body
+      'Great Deals', //title
+      'Hurry up, Daily offers upto 80%', //body
       platformChannelSpecifics,
     );
   }
