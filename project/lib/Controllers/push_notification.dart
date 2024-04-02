@@ -54,8 +54,8 @@ class PushNotification {
   static void sendNotification() async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      'your_channel_id',
-      'your_channel_name',
+      'channel_id',
+      'channel_name',
       importance: Importance.max,
       priority: Priority.high,
     );
