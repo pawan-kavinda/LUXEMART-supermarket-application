@@ -1,3 +1,125 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:geolocator/geolocator.dart';
+
+Future _firebaseBackgroundMessage(RemoteMessage message) async {
+  if (message.notification != null) {
+    print("some notification recieved");
+  }
+}
+
+class PushNotification {
+  static final _firebaseMessaging = FirebaseMessaging.instance;
+  static final FlutterLocalNotificationsPlugin
+      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  static Future<void> init() async {
+    await _firebaseMessaging.requestPermission(
+        alert: true,
+        announcement: true,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true);
+
+    // Initialization
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    final InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  static listenForLocationChanges() async {
+    Geolocator.getPositionStream().listen((Position position) {
+      checkRange(position);
+    });
+  }
+
+  static checkRange(Position position) {
+    double distance = Geolocator.distanceBetween(
+      6.053519,
+      80.220978,
+      position.latitude,
+      position.longitude,
+    );
+
+    if (distance < 1000000000) {
+      sendNotification();
+      FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
+    }
+  }
+
+  static void sendNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'your_channel_id',
+      'your_channel_name',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await _flutterLocalNotificationsPlugin.show(
+      0,
+      'Great Deals',
+      'Hurry up, Daily offers upto 80%',
+      platformChannelSpecifics,
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -70,75 +192,8 @@
 //         .show(0, title, body, notificationDetails, payload: payload);
 //   }
 // }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:geolocator/geolocator.dart';
 
-Future _firebaseBackgroundMessage(RemoteMessage message) async {
-  if (message.notification != null) {
-    print("some notification recieved");
-  }
-}
 
-class PushNotification {
-  static final _firebaseMessaging = FirebaseMessaging.instance;
-  static final FlutterLocalNotificationsPlugin
-      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-  static Future<void> init() async {
-    await _firebaseMessaging.requestPermission(
-        alert: true,
-        announcement: true,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true);
-
-    // Initialization
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    final InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
-    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
-
-  static listenForLocationChanges() async {
-    Geolocator.getPositionStream().listen((Position position) {
-      checkRange(position);
-    });
-  }
-
-  static checkRange(Position position) {
-    double distance = Geolocator.distanceBetween(
-      6.053519,
-      80.220978,
-      position.latitude,
-      position.longitude,
-    );
-
-    if (distance < 10) {
-      sendNotification();
-      // FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
-    }
-  }
-
-  static void sendNotification() async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'your_channel_id',
-      'your_channel_name',
-      importance: Importance.max,
-      priority: Priority.high,
-    );
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-    await _flutterLocalNotificationsPlugin.show(
-      0,
-      'Great Deals', //title
-      'Hurry up, Daily offers upto 80%', //body
-      platformChannelSpecifics,
-    );
-  }
-}

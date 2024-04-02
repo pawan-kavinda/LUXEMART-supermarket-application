@@ -12,7 +12,6 @@ import 'package:project/Screens/starter_page.dart';
 import 'package:provider/provider.dart';
 import 'package:project/Providers/whish_list_provider.dart';
 
-PushNotification pushNotification = new PushNotification();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
