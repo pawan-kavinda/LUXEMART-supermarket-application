@@ -7,7 +7,7 @@ import 'package:project/Controllers/user_data.dart';
 
 class WhishListProvider extends ChangeNotifier {
   List<bool> isLikedList = [false, false, false, false, false];
-
+  List<bool> issLiked = List.generate(100, (index) => false);
   //check weather product is in favourite list
   Future<bool> isProductInFavorites(
       String userId, Map<String, dynamic> productData, int index) async {
@@ -22,29 +22,6 @@ class WhishListProvider extends ChangeNotifier {
 
     return favorites.docs.isNotEmpty;
   }
-
-  // Future<List<bool>> DiscountList() async {
-  //   QuerySnapshot snapshot =
-  //       await FirebaseFirestore.instance.collection('products').get();
-
-  //   var docs = snapshot.docs;
-  //   var filteredDocs = docs.where((doc) {
-  //     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-  //     int price = data.containsKey('price')
-  //         ? int.tryParse(data['price'].toString()) ?? 0
-  //         : 0;
-  //     int discountPrice = data.containsKey('discountPrice')
-  //         ? int.tryParse(data['discountPrice'].toString()) ?? 0
-  //         : 0;
-  //     return price != discountPrice;
-  //   }).toList();
-  //   int length = filteredDocs.length;
-  //   List<bool> discountList = [];
-  //   for (int i = 0; i < length; i++) {
-  //     discountList[i] = false;
-  //   }
-  //   return discountList; // True if there are documents with different price and discount price
-  // }
 
   Future<void> addToFavourite(
       String uid, Map<String, dynamic> data, int index) async {

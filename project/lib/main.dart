@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:project/Controllers/push_notification.dart';
+import 'package:project/Screens/InnerScreens/product_details.dart';
 import 'package:project/Screens/bottom_bar_screen.dart';
 import 'package:project/Screens/login_screen.dart';
 import 'package:project/Screens/starter_page.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
                 seedColor: Color.fromARGB(255, 29, 231, 39)),
             useMaterial3: true,
           ),
-          home: LoginScreen()),
+          home: BottomBarScreen()),
     );
   }
 }

@@ -127,18 +127,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: 100),
+                    //   child: Text(
+                    //     "ALL PRODUCTS",
+                    //     style: GoogleFonts.lato(
+                    //       color: Color.fromARGB(255, 0, 0, 7),
+                    //       fontStyle: FontStyle.normal,
+                    //       fontSize: 20,
+                    //       letterSpacing: 1,
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    // ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 100),
-                      child: Text(
-                        "ALL PRODUCTS",
-                        style: GoogleFonts.lato(
-                          color: Color.fromARGB(255, 0, 0, 7),
-                          fontStyle: FontStyle.normal,
-                          fontSize: 20,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      padding: const EdgeInsets.only(left: 85.0),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            Get.to(CartScreen());
+                          },
+                          style: ElevatedButton.styleFrom(
+                              elevation: 20,
+                              shadowColor: Colors.grey,
+                              minimumSize: Size(80, 35)),
+                          child: Row(
+                            children: [
+                              BlinkText(
+                                "ALL PRODUCTS",
+                                beginColor: const Color.fromARGB(255, 0, 0, 0),
+                                endColor: Colors.blue,
+                                style: GoogleFonts.acme(
+                                  color: Color.fromARGB(255, 0, 0, 7),
+                                  fontStyle: FontStyle.normal,
+                                  letterSpacing: 2,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -4,8 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:project/Controllers/user_data.dart';
 import 'package:project/Providers/whish_list_provider.dart';
+import 'package:project/Screens/InnerScreens/product_details.dart';
 import 'package:provider/provider.dart';
 
 class Discount extends StatefulWidget {
@@ -73,6 +76,8 @@ class _DiscountState extends State<Discount> {
                       int discountPrice = data.containsKey('discountPrice')
                           ? int.tryParse(data['discountPrice'].toString()) ?? 0
                           : 0;
+                      String category =
+                          data.containsKey('category') ? data['category'] : '';
 
                       return Padding(
                         padding: const EdgeInsets.all(2.0),
@@ -81,7 +86,17 @@ class _DiscountState extends State<Discount> {
                           color: Theme.of(context).cardColor,
                           child: InkWell(
                             splashColor: Color.fromARGB(255, 214, 240, 100),
-                            onTap: () {},
+                            onTap: () {
+                              Get.to(
+                                  ProductDetailsScreen(
+                                    title: title,
+                                    price: price,
+                                    discountPrice: discountPrice,
+                                    imgUrl: imgUrl,
+                                    category: category,
+                                  ),
+                                  transition: Transition.zoom);
+                            },
                             borderRadius: BorderRadius.circular(12),
                             child: Column(children: [
                               Padding(
@@ -108,11 +123,6 @@ class _DiscountState extends State<Discount> {
 
                                             //if product not in favourite yet
                                             if (!isAlreadyInFavorites) {
-                                              // await FirebaseFirestore.instance
-                                              //     .collection('users')
-                                              //     .doc(user!.uid)
-                                              //     .collection('favourite')
-                                              //   ..add(data);
                                               provider.addToFavourite(
                                                   user.uid, data, index);
                                             } else {
@@ -125,7 +135,6 @@ class _DiscountState extends State<Discount> {
                                               provider.updateIsLiked(
                                                   index, !isAlreadyInFavorites);
                                             });
-                                            print(isLiked);
                                           },
                                           child: Icon(
                                             isLiked[index]

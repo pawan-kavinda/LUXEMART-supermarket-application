@@ -2,9 +2,16 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:project/Controllers/products.dart';
 import 'package:project/Controllers/user_data.dart';
+import 'package:project/Providers/whish_list_provider.dart';
+import 'package:project/Screens/InnerScreens/product_details.dart';
+import 'package:provider/provider.dart';
 
 class FeedWidget extends StatefulWidget {
   const FeedWidget({super.key});
@@ -50,6 +57,8 @@ class _FeedWidgetState extends State<FeedWidget> {
                   int discountPrice = data.containsKey('discountprice')
                       ? int.tryParse(data['discountprice'].toString()) ?? 0
                       : 0;
+                  String category =
+                      data.containsKey('category') ? data['category'] : '';
 
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -59,7 +68,17 @@ class _FeedWidgetState extends State<FeedWidget> {
                       child: InkWell(
                         highlightColor: Colors.blue.withOpacity(0.4),
                         splashColor: Colors.lightGreenAccent.withOpacity(0.4),
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(
+                              ProductDetailsScreen(
+                                title: title,
+                                price: price,
+                                discountPrice: discountPrice,
+                                imgUrl: imgUrl,
+                                category: category,
+                              ),
+                              transition: Transition.zoom);
+                        },
                         borderRadius: BorderRadius.circular(12),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

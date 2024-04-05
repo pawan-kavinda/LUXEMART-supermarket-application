@@ -45,7 +45,7 @@ class PushNotification {
       position.longitude,
     );
 
-    if (distance < 1000000000) {
+    if (distance < 10) {
       sendNotification();
       FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
     }
