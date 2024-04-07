@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project/Controllers/user_data.dart';
 import 'package:project/Providers/whish_list_provider.dart';
 import 'package:project/Screens/InnerScreens/product_details.dart';
@@ -60,7 +61,7 @@ class _DiscountState extends State<Discount> {
                     scrollDirection: Axis.horizontal,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1, childAspectRatio: 400 / 360),
+                            crossAxisCount: 1, childAspectRatio: 380 / 360),
                     itemCount: filteredDocs.length,
                     itemBuilder: (context, index) {
                       Map<String, dynamic> data =
@@ -84,156 +85,179 @@ class _DiscountState extends State<Discount> {
                         child: Material(
                           borderRadius: BorderRadius.circular(12),
                           color: Theme.of(context).cardColor,
-                          child: InkWell(
-                            splashColor: Color.fromARGB(255, 214, 240, 100),
-                            onTap: () {
-                              Get.to(
-                                  ProductDetailsScreen(
-                                    title: title,
-                                    price: price,
-                                    discountPrice: discountPrice,
-                                    imgUrl: imgUrl,
-                                    category: category,
-                                  ),
-                                  transition: Transition.zoom);
-                            },
-                            borderRadius: BorderRadius.circular(12),
-                            child: Column(children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  children: [
-                                    Image.network(
-                                      imgUrl,
-                                      height: 80,
-                                      fit: BoxFit.fill,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Theme.of(context).cardColor,
+                                border: Border.all(
+                                    color: Colors.black, width: 0.1)),
+                            child: InkWell(
+                              splashColor: Color.fromARGB(255, 214, 240, 100),
+                              onTap: () {
+                                Get.to(
+                                    ProductDetailsScreen(
+                                      title: title,
+                                      price: price,
+                                      discountPrice: discountPrice,
+                                      imgUrl: imgUrl,
+                                      category: category,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      child: GestureDetector(
-                                          onTap: () async {
-                                            User? user = FirebaseAuth
-                                                .instance.currentUser;
-                                            bool isAlreadyInFavorites =
-                                                await provider
-                                                    .isProductInFavorites(
-                                                        user!.uid, data, index);
+                                    transition: Transition.zoom);
+                              },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Column(children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Row(
+                                    children: [
+                                      Image.network(
+                                        imgUrl,
+                                        height: 80,
+                                        fit: BoxFit.fill,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        child: GestureDetector(
+                                            onTap: () async {
+                                              User? user = FirebaseAuth
+                                                  .instance.currentUser;
+                                              bool isAlreadyInFavorites =
+                                                  await provider
+                                                      .isProductInFavorites(
+                                                          user!.uid,
+                                                          data,
+                                                          index);
 
-                                            //if product not in favourite yet
-                                            if (!isAlreadyInFavorites) {
-                                              provider.addToFavourite(
-                                                  user.uid, data, index);
-                                            } else {
-                                              //if it is in gavourite remove it
-                                              provider
-                                                  .removeProductFromFavorites(
-                                                      user!.uid, data, index);
-                                            }
-                                            setState(() {
-                                              provider.updateIsLiked(
-                                                  index, !isAlreadyInFavorites);
-                                            });
-                                          },
-                                          child: Icon(
-                                            isLiked[index]
-                                                ? IconlyBold.heart
-                                                : IconlyLight.heart,
-                                            size: 22,
-                                            color: isLiked[index]
-                                                ? Colors.red
-                                                : null,
-                                          )),
-                                    )
-                                  ],
+                                              //if product not in favourite yet
+                                              if (!isAlreadyInFavorites) {
+                                                provider.addToFavourite(
+                                                    user.uid, data, index);
+                                              } else {
+                                                //if it is in gavourite remove it
+                                                provider
+                                                    .removeProductFromFavorites(
+                                                        user!.uid, data, index);
+                                              }
+                                              setState(() {
+                                                provider.updateIsLiked(index,
+                                                    !isAlreadyInFavorites);
+                                              });
+                                            },
+                                            child: Icon(
+                                              isLiked[index]
+                                                  ? IconlyBold.heart
+                                                  : IconlyLight.heart,
+                                              size: 22,
+                                              color: isLiked[index]
+                                                  ? Colors.red
+                                                  : null,
+                                            )),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Container(
-                                            width: 100,
-                                            child: Text(
-                                              title,
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(fontSize: 15),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: Container(
+                                              width: 120,
+                                              child: Center(
+                                                child: Text(
+                                                  title,
+                                                  maxLines: 3,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: GoogleFonts.lato(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15),
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Rs.${discountPrice.toString()}',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 18.0),
-                                    child: Text('Rs.${price.toString()}',
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 20, top: 5),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Rs.${discountPrice.toString()}',
                                         style: TextStyle(
-                                          fontSize: 12,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontWeight: FontWeight.bold,
-                                        )),
-                                  ),
-                                  IconButton(
-                                    color: Colors.green,
-                                    onPressed: () async {
-                                      User? user =
-                                          FirebaseAuth.instance.currentUser;
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 10.0,
+                                        ),
+                                        child: Text('Rs.${price.toString()}',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                      ),
+                                      IconButton(
+                                        color: Colors.green,
+                                        onPressed: () async {
+                                          User? user =
+                                              FirebaseAuth.instance.currentUser;
 
-                                      await FirebaseFirestore.instance
-                                          .collection('users')
-                                          .doc(user!.uid)
-                                          .collection('cart')
-                                          .add(data);
-                                    },
-                                    icon: Icon(IconlyBold.plus),
+                                          await FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc(user!.uid)
+                                              .collection('cart')
+                                              .add(data);
+                                        },
+                                        icon: Icon(IconlyBold.plus),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // PriceWidget(
-                                    //   isOnSale: true,
-                                    //   price: price,
-                                    //   salePrice: discountprice,
-                                    //   textPrice: _quantityTextController.text,
-                                    // ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                  ],
                                 ),
-                              ),
-                              //Spacer(),
-                            ]),
+
+                                Padding(
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      // PriceWidget(
+                                      //   isOnSale: true,
+                                      //   price: price,
+                                      //   salePrice: discountprice,
+                                      //   textPrice: _quantityTextController.text,
+                                      // ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                //Spacer(),
+                              ]),
+                            ),
                           ),
                         ),
                       );

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:io';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -154,6 +154,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             // ),
             ElevatedButton(
                 onPressed: () async {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Center(
+                            child: CircularProgressIndicator(
+                          backgroundColor: Color.fromARGB(255, 0, 7, 1),
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Color.fromARGB(255, 243, 243, 244)),
+                        ));
+                      });
                   var imageName =
                       DateTime.now().millisecondsSinceEpoch.toString();
                   var storageRef = FirebaseStorage.instance
@@ -168,6 +178,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       _emailController!.text,
                       _passwordController!.text,
                       downloadUrl);
+                  Navigator.of(context).pop();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => LoginScreen()),

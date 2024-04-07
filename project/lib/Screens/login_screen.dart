@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields, unnecessary_new, prefer_const_constructors
+// ignore_for_file: prefer_final_fields, unnecessary_new, prefer_const_constructors, use_build_context_synchronously
 
 // import 'dart:js_interop';
 
@@ -89,11 +89,23 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             ElevatedButton(
                 onPressed: () async {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Center(
+                            child: CircularProgressIndicator(
+                          backgroundColor: Color.fromARGB(255, 0, 1, 0),
+                          valueColor:
+                              new AlwaysStoppedAnimation<Color>(Colors.white),
+                        ));
+                      });
+
                   String res = await _authController.signInUser(
                       _emailController!.text, _passwordController!.text);
                   if (res == 'Successfully logged in') {
                     Get.to(() => BottomBarScreen(),
                         transition: Transition.zoom);
+                    //Navigator.of(context).pop();
                   } else {
                     _showLoginErrorDialog();
                   }
@@ -121,6 +133,14 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.only(top: 8.0, bottom: 20),
               child: ElevatedButton(
                   onPressed: () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Center(
+                              child: CircularProgressIndicator(
+                            color: Colors.blue,
+                          ));
+                        });
                     await signInWithGoogle();
                   },
                   style: ElevatedButton.styleFrom(

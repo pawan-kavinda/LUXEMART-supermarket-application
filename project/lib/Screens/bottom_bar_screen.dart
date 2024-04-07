@@ -51,7 +51,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+        //type: BottomNavigationBarType.fixed,
         onTap: _selectedPage,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -89,7 +89,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
               label: "Profile"),
           // BottomNavigationBarItem(icon: Icon(Icons.alarm), label: "Map"),
         ],
-        backgroundColor: Color.fromRGBO(220, 218, 218, 1),
+        backgroundColor: Color.fromRGBO(202, 205, 202, 1),
       ),
     );
   }

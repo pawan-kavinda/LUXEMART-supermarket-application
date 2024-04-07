@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project/Controllers/products.dart';
 import 'package:project/Controllers/user_data.dart';
 import 'package:project/Providers/whish_list_provider.dart';
@@ -42,7 +43,7 @@ class _FeedWidgetState extends State<FeedWidget> {
 
             return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 330 / 360),
+                    crossAxisCount: 2, childAspectRatio: 300 / 360),
                 itemCount: docs.length,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> data =
@@ -65,119 +66,136 @@ class _FeedWidgetState extends State<FeedWidget> {
                     child: Material(
                       borderRadius: BorderRadius.circular(12),
                       color: Theme.of(context).cardColor,
-                      child: InkWell(
-                        highlightColor: Colors.blue.withOpacity(0.4),
-                        splashColor: Colors.lightGreenAccent.withOpacity(0.4),
-                        onTap: () {
-                          Get.to(
-                              ProductDetailsScreen(
-                                title: title,
-                                price: price,
-                                discountPrice: discountPrice,
-                                imgUrl: imgUrl,
-                                category: category,
-                              ),
-                              transition: Transition.zoom);
-                        },
-                        borderRadius: BorderRadius.circular(12),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.network(
-                                          imgUrl,
-                                          height: 80,
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                          onTap: () async {
-                                            User? user = FirebaseAuth
-                                                .instance.currentUser;
-                                            bool isAlreadyInFavorites =
-                                                await isProductInFavorites(
-                                                    user!.uid, data);
-                                            //if product not in favourite yet
-                                            if (!isAlreadyInFavorites) {
-                                              await FirebaseFirestore.instance
-                                                  .collection('users')
-                                                  .doc(user!.uid)
-                                                  .collection('favourite')
-                                                ..add(data);
-                                            } else {
-                                              //if it is in gavourite remove it
-                                              removeProductFromFavorites(
-                                                  user!.uid, data);
-                                            }
-
-                                            setState(() {
-                                              isLiked[index] = !isLiked[index];
-                                            });
-                                          },
-                                          child: Icon(
-                                            isLiked[index]
-                                                ? IconlyBold.heart
-                                                : IconlyLight.heart,
-                                            size: 22,
-                                            color: isLiked[index]
-                                                ? Colors.red
-                                                : null,
-                                          ))
-                                    ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Color.fromARGB(255, 239, 250, 240),
+                              border:
+                                  Border.all(color: Colors.black, width: 0.1)),
+                          child: InkWell(
+                            highlightColor: Colors.blue.withOpacity(0.4),
+                            splashColor:
+                                Colors.lightGreenAccent.withOpacity(0.4),
+                            onTap: () {
+                              Get.to(
+                                  ProductDetailsScreen(
+                                    title: title,
+                                    price: price,
+                                    discountPrice: discountPrice,
+                                    imgUrl: imgUrl,
+                                    category: category,
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 1),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: 150,
-                                      child: Text(
-                                        title,
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
+                                  transition: Transition.zoom);
+                            },
+                            borderRadius: BorderRadius.circular(12),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 28.0),
-                                    child: Text('Rs.${price.toString()}'),
-                                  ),
-                                  Spacer(),
-                                  IconButton(
-                                    color: Colors.green,
-                                    onPressed: () async {
-                                      User? user =
-                                          FirebaseAuth.instance.currentUser;
+                                    padding: const EdgeInsets.only(left: 30),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: Image.network(
+                                            imgUrl,
+                                            height: 100,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () async {
+                                              User? user = FirebaseAuth
+                                                  .instance.currentUser;
+                                              bool isAlreadyInFavorites =
+                                                  await isProductInFavorites(
+                                                      user!.uid, data);
+                                              //if product not in favourite yet
+                                              if (!isAlreadyInFavorites) {
+                                                await FirebaseFirestore.instance
+                                                    .collection('users')
+                                                    .doc(user!.uid)
+                                                    .collection('favourite')
+                                                  ..add(data);
+                                              } else {
+                                                //if it is in gavourite remove it
+                                                removeProductFromFavorites(
+                                                    user!.uid, data);
+                                              }
 
-                                      await FirebaseFirestore.instance
-                                          .collection('users')
-                                          .doc(user!.uid)
-                                          .collection('cart')
-                                          .add(data);
-                                    },
-                                    icon: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 28.0),
-                                      child: Icon(IconlyBold.plus),
+                                              setState(() {
+                                                isLiked[index] =
+                                                    !isLiked[index];
+                                              });
+                                            },
+                                            child: Icon(
+                                              isLiked[index]
+                                                  ? IconlyBold.heart
+                                                  : IconlyLight.heart,
+                                              size: 22,
+                                              color: isLiked[index]
+                                                  ? Colors.red
+                                                  : null,
+                                            ))
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ]),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 130,
+                                          child: Center(
+                                            child: Text(
+                                              title,
+                                              style: GoogleFonts.lato(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 28.0),
+                                        child: Text('Rs.${price.toString()}'),
+                                      ),
+                                      Spacer(),
+                                      IconButton(
+                                        color: Colors.green,
+                                        onPressed: () async {
+                                          User? user =
+                                              FirebaseAuth.instance.currentUser;
+
+                                          await FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc(user!.uid)
+                                              .collection('cart')
+                                              .add(data);
+                                        },
+                                        icon: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 5),
+                                          child: Icon(
+                                            IconlyBold.plus,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ]),
+                          ),
+                        ),
                       ),
                     ),
                   );

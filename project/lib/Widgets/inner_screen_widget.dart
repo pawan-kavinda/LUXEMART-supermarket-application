@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project/Screens/InnerScreens/product_details.dart';
 
 class InnerWidget extends StatefulWidget {
   // const InnerWidget({super.key});
@@ -63,6 +66,8 @@ class _InnerWidgetState extends State<InnerWidget> {
                   int discountPrice = data.containsKey('discountprice')
                       ? int.tryParse(data['discountprice'].toString()) ?? 0
                       : 0;
+                  String category =
+                      data.containsKey('category') ? data['category'] : '';
 
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -70,7 +75,14 @@ class _InnerWidgetState extends State<InnerWidget> {
                       borderRadius: BorderRadius.circular(12),
                       color: Theme.of(context).cardColor,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(ProductDetailsScreen(
+                              title: title,
+                              price: price,
+                              discountPrice: discountPrice,
+                              imgUrl: imgUrl,
+                              category: category));
+                        },
                         borderRadius: BorderRadius.circular(12),
                         child: Column(children: [
                           Image.network(
