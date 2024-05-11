@@ -17,7 +17,7 @@ class productsData {
       return userDataList;
     } catch (e) {
       print("Error fetching data: $e");
-      return []; // Return an empty list or handle the error according to your needs
+      return [];
     }
   }
 }

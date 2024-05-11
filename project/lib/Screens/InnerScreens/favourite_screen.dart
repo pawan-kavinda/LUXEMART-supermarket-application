@@ -131,7 +131,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               //     .collection('favourite')
                               //     .doc(docs.docs[index].id)
                               //     .delete();
-                              await provider.removeProductFromFavorites(
+                              await provider.removeFeedProductFromFavorites(
                                   user!.uid, data, index);
                             },
                             icon: Icon(Icons.delete),

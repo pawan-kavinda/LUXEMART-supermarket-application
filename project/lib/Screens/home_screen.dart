@@ -7,11 +7,14 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:project/Screens/InnerScreens/cart_screen.dart';
 import 'package:project/Screens/category_screen.dart';
+import 'package:project/Widgets/all_products_widget.dart';
 import 'package:project/Widgets/discount.dart';
 import 'package:project/Widgets/feed_widget.dart';
 import 'package:blinking_text/blinking_text.dart';
+import 'package:project/Widgets/navbar_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -47,19 +50,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavDrawer(),
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Icon(
-              Icons.menu,
-              color: Colors.black,
-              weight: double.minPositive,
-            ),
-          ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Get.to(() => NavDrawer(), transition: Transition.downToUp);
+        //   },
+        //   icon: Padding(
+        //     padding: const EdgeInsets.only(right: 8.0),
+        //     child: Icon(
+        //       Icons.menu,
+        //       color: Colors.black,
+        //       weight: double.minPositive,
+        //     ),
+        //   ),
+        // ),
+
         title: Row(children: [
           Expanded(
             child: Padding(
@@ -85,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           IconButton(
               onPressed: () {
-                Get.to(() => CartScreen(), transition: Transition.downToUp);
+                Get.to(() => CartScreen(), transition: Transition.leftToRight);
               },
               icon: Icon(Icons.shopping_cart))
         ]),
@@ -134,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       BlinkText(
                         "FLASH DEALS",
                         beginColor: Color.fromARGB(255, 0, 19, 1),
-                        endColor: Color.fromARGB(255, 19, 230, 89),
+                        endColor: Color.fromARGB(255, 194, 0, 0),
                         style: GoogleFonts.acme(
                           color: Color.fromARGB(255, 0, 0, 7),
                           fontStyle: FontStyle.normal,
@@ -163,53 +170,53 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 200,
-                    width: 380,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 2,
-                          strokeAlign: BorderSide.strokeAlignCenter),
-                      // color: const Color(0xff7c94b6),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/Images/promo.jpg'),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 140, left: 180),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          Get.to(CartScreen());
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors
-                              .transparent, // Background color set to transparent
-                          elevation: 0, // No shadow
-                        ),
-                        child: Row(
-                          children: [
-                            BlinkText(
-                              "SHOP NOW",
-                              beginColor: Color.fromARGB(255, 0, 0, 0),
-                              endColor: Color.fromARGB(255, 238, 23, 23),
-                              style: GoogleFonts.acme(
-                                color: Color.fromARGB(255, 0, 0, 7),
-                                fontStyle: FontStyle.normal,
-                                letterSpacing: 2,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Container(
+                //     height: 200,
+                //     width: 380,
+                //     decoration: BoxDecoration(
+                //       border: Border.all(
+                //           color: Colors.black,
+                //           width: 2,
+                //           strokeAlign: BorderSide.strokeAlignCenter),
+                //       // color: const Color(0xff7c94b6),
+                //       image: const DecorationImage(
+                //         image: AssetImage('assets/Images/promo.jpg'),
+                //         fit: BoxFit.fill,
+                //       ),
+                //     ),
+                //     child: Padding(
+                //       padding: const EdgeInsets.only(top: 140, left: 180),
+                //       child: ElevatedButton(
+                //         onPressed: () async {
+                //           Get.to(CartScreen());
+                //         },
+                //         style: ElevatedButton.styleFrom(
+                //           primary: Colors
+                //               .transparent, // Background color set to transparent
+                //           elevation: 0, // No shadow
+                //         ),
+                //         child: Row(
+                //           children: [
+                //             BlinkText(
+                //               "SHOP NOW",
+                //               beginColor: Color.fromARGB(255, 0, 0, 0),
+                //               endColor: Color.fromARGB(255, 238, 23, 23),
+                //               style: GoogleFonts.acme(
+                //                 color: Color.fromARGB(255, 0, 0, 7),
+                //                 fontStyle: FontStyle.normal,
+                //                 letterSpacing: 2,
+                //                 fontSize: 25,
+                //                 fontWeight: FontWeight.bold,
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -233,12 +240,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           children: [
                             InkWell(
                               onTap: () {
-                                Get.to(CategoryScreen());
+                                Get.to(AllProductsWidget());
                               },
-                              child: BlinkText(
+                              child: Text(
                                 "ALL PRODUCTS",
-                                beginColor: Color.fromARGB(255, 0, 19, 1),
-                                endColor: Color.fromARGB(255, 19, 230, 89),
                                 style: GoogleFonts.acme(
                                   color: Color.fromARGB(255, 0, 0, 7),
                                   fontStyle: FontStyle.normal,

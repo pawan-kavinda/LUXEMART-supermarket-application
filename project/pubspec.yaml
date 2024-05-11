@@ -57,6 +57,11 @@ dependencies:
   google_fonts: 5.1.0
   flutter_rating_bar: ^4.0.1   
   animated_background: ^2.0.0
+  cached_network_image: ^3.3.1
+  path_provider: ^2.1.2
+  http: ^1.1.0  
+  mockito: ^5.4.4
+  
   
   
   

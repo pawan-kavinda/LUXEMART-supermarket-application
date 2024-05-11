@@ -11,30 +11,91 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project/Controllers/products.dart';
 import 'package:project/Controllers/user_data.dart';
 import 'package:project/Providers/whish_list_provider.dart';
+import 'package:project/Screens/InnerScreens/cart_screen.dart';
 import 'package:project/Screens/InnerScreens/product_details.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class FeedWidget extends StatefulWidget {
-  const FeedWidget({super.key});
+class AllProductsWidget extends StatefulWidget {
+  const AllProductsWidget({super.key});
 
   @override
-  State<FeedWidget> createState() => _FeedWidgetState();
+  State<AllProductsWidget> createState() => _AllProductsWidgetState();
 }
 
-class _FeedWidgetState extends State<FeedWidget> {
-  final _productstream =
-      FirebaseFirestore.instance.collection('products').snapshots();
-
+class _AllProductsWidgetState extends State<AllProductsWidget> {
+  final _productstream = FirebaseFirestore.instance.collection('products');
+  final TextEditingController _searchTextController = TextEditingController();
   UserData currentUser = new UserData();
   List isLiked = List.generate(100, (index) => false);
+  String searchText = '';
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _searchTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<WhishListProvider>(context);
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {},
+          icon: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(
+              Icons.menu,
+              color: Colors.black,
+              weight: double.minPositive,
+            ),
+          ),
+        ),
+        title: Row(children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: TextField(
+                controller: _searchTextController,
+                onChanged: (value) {
+                  setState(() {
+                    searchText = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: "Search",
+                  hintStyle: GoogleFonts.lato(
+                      letterSpacing: 2,
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          IconButton(
+              onPressed: () {
+                Get.to(() => CartScreen(), transition: Transition.downToUp);
+              },
+              icon: Icon(Icons.shopping_cart))
+        ]),
+      ),
       body: StreamBuilder(
-          stream: _productstream,
+          stream: searchText.isEmpty
+              ? _productstream.snapshots()
+              : _productstream
+                  .where('title',
+                      isGreaterThanOrEqualTo: searchText,
+                      isLessThanOrEqualTo: searchText + '\uf8ff')
+                  .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text('Error');
@@ -63,8 +124,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                       : 0;
                   String category =
                       data.containsKey('category') ? data['category'] : '';
-                  String? userId = FirebaseAuth.instance.currentUser!.uid;
-                  bool islikeditem = false;
+
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Material(
@@ -120,27 +180,32 @@ class _FeedWidgetState extends State<FeedWidget> {
                                               User? user = FirebaseAuth
                                                   .instance.currentUser;
                                               bool isAlreadyInFavorites =
-                                                  await provider.isInWhishList(
-                                                      user!.uid, title);
-                                              print(provider.issLiked);
+                                                  await isProductInFavorites(
+                                                      user!.uid, data);
                                               //if product not in favourite yet
                                               if (!isAlreadyInFavorites) {
-                                                provider
-                                                    .addFeedProductsToFavourite(
-                                                        user.uid, data, index);
+                                                await FirebaseFirestore.instance
+                                                    .collection('users')
+                                                    .doc(user!.uid)
+                                                    .collection('favourite')
+                                                  ..add(data);
                                               } else {
                                                 //if it is in gavourite remove it
-                                                provider
-                                                    .removeFeedProductFromFavorites(
-                                                        userId, data, index);
+                                                removeProductFromFavorites(
+                                                    user!.uid, data);
                                               }
+
+                                              setState(() {
+                                                isLiked[index] =
+                                                    !isLiked[index];
+                                              });
                                             },
                                             child: Icon(
-                                              provider.issLiked[index]
+                                              isLiked[index]
                                                   ? IconlyBold.heart
                                                   : IconlyLight.heart,
                                               size: 22,
-                                              color: provider.issLiked[index]
+                                              color: isLiked[index]
                                                   ? Colors.red
                                                   : null,
                                             ))

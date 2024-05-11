@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthController {
+  static final _firebaseMessaging = FirebaseMessaging.instance;
   Future<String> signUpUser(String mobileNumber, String displayName,
       String email, String password, String imageUrl) async {
     String res = 'some error occured';
@@ -15,11 +17,13 @@ class AuthController {
           imageUrl.isNotEmpty) {
         UserCredential cred = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
+        final token = await _firebaseMessaging.getToken();
         FirebaseFirestore.instance.collection('users').doc(cred.user!.uid).set({
           'displayName': displayName,
           'mobileNumber': mobileNumber,
           'email': email,
-          'imageUrl': imageUrl
+          'imageUrl': imageUrl,
+          'FCMToken': token
         });
         res = 'success';
       }

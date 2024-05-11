@@ -20,7 +20,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   bool _isSelected2 = false;
   final List _pages = [
     const HomeScreen(),
-    const CategoryScreen(),
+    CategoryScreen(),
     const ProfileScreen(),
     //const MapScreen()
 

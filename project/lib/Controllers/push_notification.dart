@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -39,58 +43,68 @@ class PushNotification {
 
   static checkRange(Position position) {
     double distance = Geolocator.distanceBetween(
-      6.053519,
-      80.220978,
+      6.078233537267376,
+      80.19211614479477,
       position.latitude,
       position.longitude,
     );
 
     if (distance < 10) {
       sendNotification();
-      FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
     }
   }
 
   static void sendNotification() async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    List<String> discountData = await DiscountDataFromFirestore();
+
+    String imageUrl = 'assets/Images/carrot.jpg';
+
+    final String filePath = imageUrl;
+    final BigPictureStyleInformation bigPictureStyleInformation =
+        BigPictureStyleInformation(FilePathAndroidBitmap(filePath),
+            largeIcon: FilePathAndroidBitmap(filePath));
+
+    // Create AndroidNotificationDetails with the BigPictureStyleInformation
+    final AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'channel_id',
       'channel_name',
       importance: Importance.max,
       priority: Priority.high,
+      styleInformation: bigPictureStyleInformation,
     );
-    const NotificationDetails platformChannelSpecifics =
+    final NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    // notification content
+    String notificationContent = '';
+    for (String item in discountData) {
+      notificationContent += '$item\n';
+    }
+
+    // Show the notification
     await _flutterLocalNotificationsPlugin.show(
       0,
-      'Great Deals',
-      'Hurry up, Daily offers upto 80%',
+      'LuxeMart Deals of the Day',
+      notificationContent, // Trim to remove trailing newline
       platformChannelSpecifics,
     );
   }
+
+//for getting notification data
+  static Future<List<String>> DiscountDataFromFirestore() async {
+    List<String> dataList = [];
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance.collection('products').get();
+
+    querySnapshot.docs.forEach((doc) {
+      if (doc.data()['price'] != doc.data()['discountPrice'])
+        dataList.add(doc.data()['title']);
+    });
+
+    return dataList;
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -192,8 +206,8 @@ class PushNotification {
 //         .show(0, title, body, notificationDetails, payload: payload);
 //   }
 // }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 

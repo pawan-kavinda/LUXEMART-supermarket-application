@@ -15,7 +15,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  PushNotification _notification = new PushNotification();
+  // PushNotification _notification = new PushNotification();
   Location locationController = new Location();
   LatLng? _currentPosition;
   final Completer<GoogleMapController> googleMapCompleteController =

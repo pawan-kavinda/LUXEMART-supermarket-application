@@ -79,7 +79,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 borderWidth: 5.0,
                               ),
                             ),
-                          ),
+                          ), //////////////////////////////////////////////////////////////////
+
                           Row(
                             children: [
                               Padding(

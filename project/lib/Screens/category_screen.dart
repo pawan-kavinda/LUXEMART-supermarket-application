@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -8,7 +9,9 @@ import 'package:project/Screens/InnerScreens/cart_screen.dart';
 import 'package:project/Widgets/inner_screen_widget.dart';
 
 class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({super.key});
+  final productstream = FirebaseFirestore.instance.collection('products').get();
+
+  CategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

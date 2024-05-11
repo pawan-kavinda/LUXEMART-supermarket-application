@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_cast, avoid_single_cascade_in_expression_statements, curly_braces_in_flow_control_structures, sort_child_properties_last
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -111,8 +112,12 @@ class _DiscountState extends State<Discount> {
                                       horizontal: 20),
                                   child: Row(
                                     children: [
-                                      Image.network(
-                                        imgUrl,
+                                      CachedNetworkImage(
+                                        imageUrl: imgUrl,
+                                        placeholder: (context, url) => Center(
+                                            child: CircularProgressIndicator()),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                         height: 80,
                                         fit: BoxFit.fill,
                                       ),
@@ -132,25 +137,26 @@ class _DiscountState extends State<Discount> {
 
                                               //if product not in favourite yet
                                               if (!isAlreadyInFavorites) {
-                                                provider.addToFavourite(
-                                                    user.uid, data, index);
+                                                provider
+                                                    .addDiscountProductsToFavourite(
+                                                        user.uid, data, index);
                                               } else {
                                                 //if it is in gavourite remove it
                                                 provider
-                                                    .removeProductFromFavorites(
+                                                    .removeDiscountProductFromFavorites(
                                                         user!.uid, data, index);
                                               }
-                                              setState(() {
-                                                provider.updateIsLiked(index,
-                                                    !isAlreadyInFavorites);
-                                              });
+                                              // setState(() {
+                                              //   provider.updateIsLiked(index,
+                                              //       !isAlreadyInFavorites);
+                                              // });
                                             },
                                             child: Icon(
-                                              isLiked[index]
+                                              provider.isLikedList[index]
                                                   ? IconlyBold.heart
                                                   : IconlyLight.heart,
                                               size: 22,
-                                              color: isLiked[index]
+                                              color: provider.isLikedList[index]
                                                   ? Colors.red
                                                   : null,
                                             )),
