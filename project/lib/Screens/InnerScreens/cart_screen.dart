@@ -3,7 +3,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project/Controllers/user_data.dart';
+import 'package:project/Screens/InnerScreens/payment.dart';
+import 'package:project/Widgets/inner_screen_widget.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -50,21 +54,65 @@ class _CartScreenState extends State<CartScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
           child: Text('Cart Screen'),
         ),
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Color.fromARGB(255, 151, 177, 139),
         titleTextStyle: TextStyle(
             fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),
       ),
       bottomNavigationBar: Row(
         children: [
-          Text(
-            "Total Amount",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+          // Text(
+          //   "Total Amount",
+          //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          // ),
+
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 100),
+
+          //   child: Text(
+
+          //     'Rs.${totalpp}.00',
+          //       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          // ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 0),
-            child: Text('Rs.${totalpp}',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ),
+            padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 1),
+            child: ElevatedButton(
+                onPressed: () async {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Center(
+                            child: CircularProgressIndicator(
+                          backgroundColor: Color.fromARGB(255, 0, 7, 1),
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Color.fromARGB(255, 243, 243, 244)),
+                        ));
+                      });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PaymentScreen(price: totalpp)),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                    elevation: 20,
+                    shadowColor: Colors.grey,
+                    minimumSize: Size(280, 35)),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Icon(IconlyBold.buy),
+                    ),
+                    Text(
+                      'Proceed to Payment',
+                      style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                          fontSize: 20),
+                    ),
+                  ],
+                )),
+          )
         ],
       ),
       body: StreamBuilder(
@@ -182,7 +230,6 @@ class _CartScreenState extends State<CartScreen> {
                               ],
                             ),
                           ),
-                          Spacer(),
                         ]),
                       ),
                     ),

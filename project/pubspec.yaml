@@ -61,8 +61,9 @@ dependencies:
   path_provider: ^2.1.2
   http: ^1.1.0  
   mockito: ^5.4.4
-  
-  
+  flutter_polyline_points: ^2.0.0
+  google_map_marker_animation: ^0.0.1
+  flutter_stripe: ^9.5.0+1
   
   
   

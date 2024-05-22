@@ -24,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final List<String> _Images = [
-    'assets/Images/one.jpg',
+    'assets/Images/five.jpg',
     'assets/Images/two.jpg',
     'assets/Images/three.jpg',
     'assets/Images/four.jpg',
@@ -170,53 +170,53 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     },
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     height: 200,
-                //     width: 380,
-                //     decoration: BoxDecoration(
-                //       border: Border.all(
-                //           color: Colors.black,
-                //           width: 2,
-                //           strokeAlign: BorderSide.strokeAlignCenter),
-                //       // color: const Color(0xff7c94b6),
-                //       image: const DecorationImage(
-                //         image: AssetImage('assets/Images/promo.jpg'),
-                //         fit: BoxFit.fill,
-                //       ),
-                //     ),
-                //     child: Padding(
-                //       padding: const EdgeInsets.only(top: 140, left: 180),
-                //       child: ElevatedButton(
-                //         onPressed: () async {
-                //           Get.to(CartScreen());
-                //         },
-                //         style: ElevatedButton.styleFrom(
-                //           primary: Colors
-                //               .transparent, // Background color set to transparent
-                //           elevation: 0, // No shadow
-                //         ),
-                //         child: Row(
-                //           children: [
-                //             BlinkText(
-                //               "SHOP NOW",
-                //               beginColor: Color.fromARGB(255, 0, 0, 0),
-                //               endColor: Color.fromARGB(255, 238, 23, 23),
-                //               style: GoogleFonts.acme(
-                //                 color: Color.fromARGB(255, 0, 0, 7),
-                //                 fontStyle: FontStyle.normal,
-                //                 letterSpacing: 2,
-                //                 fontSize: 25,
-                //                 fontWeight: FontWeight.bold,
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  child: Container(
+                    height: 200,
+                    width: 470,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                          strokeAlign: BorderSide.strokeAlignCenter),
+                      // color: const Color(0xff7c94b6),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/Images/popular.jpg'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 100, left: 180),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          Get.to(AllProductsWidget());
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors
+                              .transparent, // Background color set to transparent
+                          elevation: 0, // No shadow
+                        ),
+                        child: Row(
+                          children: [
+                            BlinkText(
+                              "SHOP NOW",
+                              beginColor: Color.fromARGB(255, 0, 0, 0),
+                              endColor: Color.fromARGB(255, 238, 23, 23),
+                              style: GoogleFonts.acme(
+                                color: Color.fromARGB(255, 0, 0, 7),
+                                fontStyle: FontStyle.normal,
+                                letterSpacing: 2,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
