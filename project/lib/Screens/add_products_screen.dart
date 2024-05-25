@@ -164,7 +164,6 @@ class _AddFoodState extends State<AddFood> {
                                 'price': int.parse(_priceController.text),
                                 'discountPrice':
                                     int.parse(_discountpriceController.text),
-                                // 'imgname': _imgurlController.text,
                                 'category': _categoryController.text,
                                 'imageurl': downloadUrl
                               });

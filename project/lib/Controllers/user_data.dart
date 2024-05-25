@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 class UserData {
   Future<Map<String, dynamic>> getCurrentUserData() async {
     User? user = await FirebaseAuth.instance.currentUser;
-
     DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
         .collection('users')
@@ -61,5 +60,27 @@ class UserData {
     }
 
     return whishListUid;
+  }
+
+  Future<List<String>> getCurrentUserCartDataOrder() async {
+    User? user = await FirebaseAuth.instance.currentUser;
+
+    QuerySnapshot<Map<String, dynamic>> cartListSnapshot =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .collection('cart')
+            .get();
+
+    List<String> cartListUid = [];
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> productDoc
+        in cartListSnapshot.docs) {
+      String productId = productDoc.id;
+
+      cartListUid.add(productId);
+    }
+
+    return cartListUid;
   }
 }
