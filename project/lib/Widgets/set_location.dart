@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -97,7 +100,8 @@ class _SetLocationState extends State<SetLocation> {
           : Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 30),
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(
@@ -133,7 +137,8 @@ class _SetLocationState extends State<SetLocation> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(18.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 50.0, vertical: 20),
                   child: TextFormField(
                     textAlign: TextAlign.justify,
                     controller: _mobileNoController,
@@ -141,16 +146,36 @@ class _SetLocationState extends State<SetLocation> {
                         prefixIcon: Icon(Icons.email_rounded),
                         hintText: "Contact Number",
                         hintStyle: GoogleFonts.rasa(
-                            color: Colors.green,
+                            color: const Color.fromARGB(255, 0, 0, 0),
                             fontSize: 20,
+                            fontWeight: FontWeight.bold,
                             letterSpacing: 2)),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    addOrderDetails();
-                  },
-                  child: Text("Set Location"),
+                Padding(
+                  padding: const EdgeInsets.all(35.0),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        addOrderDetails();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          elevation: 20,
+                          shadowColor: Colors.grey,
+                          minimumSize: Size(100, 35)),
+                      child: Row(children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Icon(IconlyBold.location),
+                        ),
+                        Text(
+                          'Confirm Location',
+                          style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                              fontSize: 20),
+                        ),
+                      ])),
                 ),
               ],
             ),

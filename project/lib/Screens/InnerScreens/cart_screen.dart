@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_single_cascade_in_expression_statements
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_single_cascade_in_expression_statements, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,6 +19,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   List<int> priceList = [];
   int totalpp = 0;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -74,24 +75,24 @@ class _CartScreenState extends State<CartScreen> {
           //       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           // ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 1),
+            padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 20),
             child: ElevatedButton(
                 onPressed: () async {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Center(
-                            child: CircularProgressIndicator(
-                          backgroundColor: Color.fromARGB(255, 0, 7, 1),
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Color.fromARGB(255, 243, 243, 244)),
-                        ));
-                      });
+                  setState(() {
+                    _isLoading = true; // Set loading state to true
+                  });
+
+                  // Show loading indicator for 1 second
+                  await Future.delayed(Duration(seconds: 1));
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => PaymentScreen(price: totalpp)),
                   );
+                  setState(() {
+                    _isLoading = false;
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                     elevation: 20,
@@ -115,127 +116,134 @@ class _CartScreenState extends State<CartScreen> {
           )
         ],
       ),
-      body: StreamBuilder(
-          stream:
-              _cartProductStream.doc(user!.uid).collection('cart').snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Text('Error');
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text('Loading....');
-            }
-            var docs = snapshot.data;
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : StreamBuilder(
+              stream: _cartProductStream
+                  .doc(user!.uid)
+                  .collection('cart')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Error');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text('Loading....');
+                }
+                var docs = snapshot.data;
 
-            if (docs == null || docs.docs.isEmpty) {
-              return Center(
-                  child: const Text(
-                'No cart items found',
-                style: TextStyle(fontSize: 30),
-              ));
-            }
+                if (docs == null || docs.docs.isEmpty) {
+                  return Center(
+                      child: const Text(
+                    'No cart items found',
+                    style: TextStyle(fontSize: 30),
+                  ));
+                }
 
-            List<Map<String, dynamic>> cartItems =
-                docs.docs.map((doc) => doc.data()).toList();
+                List<Map<String, dynamic>> cartItems =
+                    docs.docs.map((doc) => doc.data()).toList();
 
-            return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1, childAspectRatio: 800 / 360),
-                itemCount: cartItems.length,
-                itemBuilder: (context, index) {
-                  Map<String, dynamic> data = cartItems[index];
+                return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1, childAspectRatio: 800 / 360),
+                    itemCount: cartItems.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> data = cartItems[index];
 
-                  String imgUrl =
-                      data.containsKey('imageurl') ? data['imageurl'] : '';
-                  String title = data.containsKey('title') ? data['title'] : '';
-                  int price = data.containsKey('price')
-                      ? int.tryParse(data['price'].toString()) ?? 0
-                      : 0;
-                  int discountPrice = data.containsKey('discountprice')
-                      ? int.tryParse(data['discountprice'].toString()) ?? 0
-                      : 0;
+                      String imgUrl =
+                          data.containsKey('imageurl') ? data['imageurl'] : '';
+                      String title =
+                          data.containsKey('title') ? data['title'] : '';
+                      int price = data.containsKey('price')
+                          ? int.tryParse(data['price'].toString()) ?? 0
+                          : 0;
+                      int discountPrice = data.containsKey('discountprice')
+                          ? int.tryParse(data['discountprice'].toString()) ?? 0
+                          : 0;
 
-                  return Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Theme.of(context).cardColor,
-                      child: InkWell(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(12),
-                        child: Row(children: [
-                          Image.network(
-                            imgUrl,
-                            height: 80,
-                            fit: BoxFit.fill,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 1),
-                                  child: Container(
-                                    width: 80,
-                                    child: Text(
-                                      title,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                      return Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Theme.of(context).cardColor,
+                          child: InkWell(
+                            onTap: () {},
+                            borderRadius: BorderRadius.circular(12),
+                            child: Row(children: [
+                              Image.network(
+                                imgUrl,
+                                height: 80,
+                                fit: BoxFit.fill,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 1),
+                                      child: Container(
+                                        width: 80,
+                                        child: Text(
+                                          title,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 1, vertical: 20),
-                                  child: Container(
-                                    width: 100,
-                                    child: Text(
-                                      'Rs.${price.toString()}.00',
-                                      style: TextStyle(fontSize: 15),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 1, vertical: 20),
+                                      child: Container(
+                                        width: 100,
+                                        child: Text(
+                                          'Rs.${price.toString()}.00',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Spacer(),
-                          IconButton(
-                            onPressed: () async {
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(user!.uid)
-                                  .collection('cart')
-                                  .doc(docs.docs[index].id)
-                                  .delete();
-                            },
-                            icon: Icon(Icons.delete),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // PriceWidget(
-                                //   isOnSale: true,
-                                //   price: price,
-                                //   salePrice: discountprice,
-                                //   textPrice: _quantityTextController.text,
-                                // ),
-                                SizedBox(
-                                  width: 8,
+                              ),
+                              Spacer(),
+                              IconButton(
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(user!.uid)
+                                      .collection('cart')
+                                      .doc(docs.docs[index].id)
+                                      .delete();
+                                },
+                                icon: Icon(Icons.delete),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // PriceWidget(
+                                    //   isOnSale: true,
+                                    //   price: price,
+                                    //   salePrice: discountprice,
+                                    //   textPrice: _quantityTextController.text,
+                                    // ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ]),
                           ),
-                        ]),
-                      ),
-                    ),
-                  );
-                });
-          }),
+                        ),
+                      );
+                    });
+              }),
     );
   }
 
