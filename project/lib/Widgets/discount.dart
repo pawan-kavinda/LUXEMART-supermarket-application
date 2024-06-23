@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_cast, avoid_single_cascade_in_expression_statements, curly_braces_in_flow_control_structures, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,6 +31,8 @@ class _DiscountState extends State<Discount> {
   Widget build(BuildContext context) {
     final provider = Provider.of<WhishListProvider>(context);
     isLiked = provider.isLikedList;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: StreamBuilder(
           stream: _productstream,
@@ -42,7 +44,7 @@ class _DiscountState extends State<Discount> {
               return const Text('Loading....');
             }
             var docs = snapshot.data!.docs;
-            //to get discount products
+            // to get discount products
             var filteredDocs = docs.where((doc) {
               Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
               int price = data.containsKey('price')
@@ -60,9 +62,10 @@ class _DiscountState extends State<Discount> {
                 height: 250,
                 child: GridView.builder(
                     scrollDirection: Axis.horizontal,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1, childAspectRatio: 380 / 360),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                        childAspectRatio:
+                            screenWidth < 600 ? 380 / 360 : 380 / 300),
                     itemCount: filteredDocs.length,
                     itemBuilder: (context, index) {
                       Map<String, dynamic> data =
@@ -135,21 +138,17 @@ class _DiscountState extends State<Discount> {
                                                           data,
                                                           index);
 
-                                              //if product not in favourite yet
+                                              // if product not in favourite yet
                                               if (!isAlreadyInFavorites) {
                                                 provider
                                                     .addDiscountProductsToFavourite(
                                                         user.uid, data, index);
                                               } else {
-                                                //if it is in gavourite remove it
+                                                // if it is in favourite remove it
                                                 provider
                                                     .removeDiscountProductFromFavorites(
                                                         user!.uid, data, index);
                                               }
-                                              // setState(() {
-                                              //   provider.updateIsLiked(index,
-                                              //       !isAlreadyInFavorites);
-                                              // });
                                             },
                                             child: Icon(
                                               provider.isLikedList[index]
@@ -177,7 +176,8 @@ class _DiscountState extends State<Discount> {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10),
                                             child: Container(
-                                              width: 120,
+                                              width:
+                                                  screenWidth < 600 ? 120 : 160,
                                               child: Center(
                                                 child: Text(
                                                   title,
@@ -242,66 +242,27 @@ class _DiscountState extends State<Discount> {
                                     ],
                                   ),
                                 ),
-
                                 Padding(
                                   padding: const EdgeInsets.all(1.0),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      // PriceWidget(
-                                      //   isOnSale: true,
-                                      //   price: price,
-                                      //   salePrice: discountprice,
-                                      //   textPrice: _quantityTextController.text,
-                                      // ),
                                       SizedBox(
                                         width: 8,
                                       ),
                                     ],
                                   ),
                                 ),
-                                //Spacer(),
                               ]),
                             ),
                           ),
                         ),
                       );
-                      //else {
-                      //   return Container();
-                      // }
                     }),
               ),
             );
           }),
     );
   }
-
-//to check favourite item already exists in users whishlist
-  // Future<bool> isProductInFavorites(
-  //     String userId, Map<String, dynamic> productData) async {
-  //   QuerySnapshot favorites = await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(userId)
-  //       .collection('favourite')
-  //       .where('title', isEqualTo: productData['title'])
-  //       // Add more conditions if needed for uniqueness
-  //       .get();
-
-  //   return favorites.docs.isNotEmpty;
-  // }
-
-  // Future<void> removeProductFromFavorites(
-  //     String userId, Map<String, dynamic> productData) async {
-  //   QuerySnapshot favorites = await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(userId)
-  //       .collection('favourite')
-  //       .where('title', isEqualTo: productData['title'])
-  //       .get();
-
-  //   for (QueryDocumentSnapshot doc in favorites.docs) {
-  //     await doc.reference.delete();
-  //   }
-  // }
 }

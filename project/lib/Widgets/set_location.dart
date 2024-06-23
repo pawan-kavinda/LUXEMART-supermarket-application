@@ -28,19 +28,19 @@ class SetLocation extends StatefulWidget {
 class _SetLocationState extends State<SetLocation> {
   Location locationController = Location();
   LatLng? _currentPosition;
-  LatLng? _deliveryLocation;
+  LatLng _medawachchiyaPosition = LatLng(8.5375, 80.4910);
   GoogleMapController? _googleMapController;
   bool _isLoading = true;
   final firestore = FirebaseFirestore.instance;
   UserData userData = new UserData();
   List<String> orderedProducts = [];
   TextEditingController? _mobileNoController = new TextEditingController();
+
   @override
   void initState() {
     super.initState();
     getLocationData();
     getOrderProducts();
-    // _deliveryLocation = _currentPosition;
   }
 
   @override
@@ -79,6 +79,97 @@ class _SetLocationState extends State<SetLocation> {
     });
   }
 
+  double calculateDistance(LatLng start, LatLng end) {
+    const double earthRadius = 6371; // Earth's radius in km
+
+    double dLat = _degreesToRadians(end.latitude - start.latitude);
+    double dLon = _degreesToRadians(end.longitude - start.longitude);
+
+    double a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(_degreesToRadians(start.latitude)) *
+            cos(_degreesToRadians(end.latitude)) *
+            sin(dLon / 2) *
+            sin(dLon / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    return earthRadius * c;
+  }
+
+  double _degreesToRadians(double degrees) {
+    return degrees * pi / 180;
+  }
+
+  void addOrderDetails() async {
+    if (_currentPosition != null && _mobileNoController!.text.isNotEmpty) {
+      double distance =
+          calculateDistance(_medawachchiyaPosition, _currentPosition!);
+      if (distance <= 15) {
+        setState(() {
+          _isLoading = true;
+        });
+
+        User? user = FirebaseAuth.instance.currentUser;
+        FirebaseFirestore.instance.collection('Pending Orders').add({
+          'order_ID': user!.uid + Random().nextInt(100).toString(),
+          'customer_name': user.displayName,
+          'customer_mobileNo': _mobileNoController!.text,
+          'total_price': widget.price,
+          'location': GeoPoint(
+            _currentPosition!.latitude,
+            _currentPosition!.longitude,
+          ),
+          'product_list': orderedProducts
+        });
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Order Placed"),
+                content: Text("Your order has been placed successfully!"),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("OK"),
+                  ),
+                ],
+              );
+            });
+
+        await Future.delayed(Duration(seconds: 3));
+        setState(() {
+          _isLoading = false;
+        });
+
+        Get.to(() => HomeScreen(), transition: Transition.cupertino);
+      } else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Delivery Unavailable"),
+                content: Text("We are unable to deliver to your location."),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("OK"),
+                  ),
+                ],
+              );
+            });
+      }
+    } else {
+      debugPrint("Error: _currentPosition is null or mobile number is empty");
+    }
+  }
+
+  void getOrderProducts() async {
+    orderedProducts = await userData.getCurrentUserCartDataOrder();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,9 +196,8 @@ class _SetLocationState extends State<SetLocation> {
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(
-                      color: Color.fromARGB(
-                          255, 44, 208, 19), // Set border color here
-                      width: 2, // Set border width here
+                      color: Color.fromARGB(255, 44, 208, 19),
+                      width: 2,
                     )),
                     height: 400,
                     child: GoogleMap(
@@ -131,7 +221,21 @@ class _SetLocationState extends State<SetLocation> {
                             debugPrint(_currentPosition!.latitude.toString());
                             debugPrint(_currentPosition!.longitude.toString());
                           }),
-                        )
+                        ),
+                        Marker(
+                          markerId: MarkerId('Medawachchiya'),
+                          position: _medawachchiyaPosition,
+                        ),
+                      },
+                      circles: {
+                        Circle(
+                          circleId: CircleId('deliveryRadius'),
+                          center: _medawachchiyaPosition,
+                          radius: 15000, // 15 km radius
+                          fillColor: Colors.blue.withOpacity(0.3),
+                          strokeColor: Colors.blue,
+                          strokeWidth: 2,
+                        ),
                       },
                     ),
                   ),
@@ -180,56 +284,5 @@ class _SetLocationState extends State<SetLocation> {
               ],
             ),
     );
-  }
-
-  void addOrderDetails() async {
-    //for loading indicator
-    if (_currentPosition != null && _mobileNoController!.text.isNotEmpty) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      User? user = FirebaseAuth.instance.currentUser;
-      FirebaseFirestore.instance.collection('Pending Orders').add({
-        'order_ID': user!.uid + Random().nextInt(100).toString(),
-        'customer_name': user.displayName,
-        'customer_mobileNo': _mobileNoController!.text,
-        'total_price': widget.price,
-        'location': GeoPoint(
-          _currentPosition!.latitude,
-          _currentPosition!.longitude,
-        ),
-        'product_list': orderedProducts
-      });
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Order Placed"),
-              content: Text("Your order has been placed successfully!"),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("OK"),
-                ),
-              ],
-            );
-          });
-      //display loading indicator for 2 seconds after location confirmation
-      await Future.delayed(Duration(seconds: 3));
-      setState(() {
-        _isLoading = false;
-      });
-
-      Get.to(() => HomeScreen(), transition: Transition.cupertino);
-    } else {
-      debugPrint("Error: _currentPosition is null");
-    }
-  }
-
-  void getOrderProducts() async {
-    orderedProducts = await userData.getCurrentUserCartDataOrder();
   }
 }

@@ -110,12 +110,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 1, vertical: 30),
+                                      horizontal: 1, vertical: 20),
                                   child: Container(
                                     width: 100,
                                     child: Text(
                                       'Rs.${price.toString()}.00',
-                                      style: TextStyle(fontSize: 15),
+                                      style: TextStyle(fontSize: 13),
                                     ),
                                   ),
                                 ),
@@ -125,12 +125,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           Spacer(),
                           IconButton(
                             onPressed: () async {
-                              // await FirebaseFirestore.instance
-                              //     .collection('users')
-                              //     .doc(user!.uid)
-                              //     .collection('favourite')
-                              //     .doc(docs.docs[index].id)
-                              //     .delete();
                               await provider.removeFeedProductFromFavorites(
                                   user!.uid, data, index);
                             },
@@ -141,12 +135,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // PriceWidget(
-                                //   isOnSale: true,
-                                //   price: price,
-                                //   salePrice: discountprice,
-                                //   textPrice: _quantityTextController.text,
-                                // ),
                                 SizedBox(
                                   width: 8,
                                 ),
@@ -155,51 +143,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           ),
                           Spacer(),
                         ]),
-                        // child: Column(children: [
-                        //   Image.asset(
-                        //     'assets/Images/beauty.jpg',
-                        //     height: 80,
-                        //     fit: BoxFit.fill,
-                        //   ),
-
-                        //   Padding(
-                        //     padding: const EdgeInsets.symmetric(
-                        //         horizontal: 50, vertical: 5),
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         Text(
-                        //           title,
-                        //           style: TextStyle(fontSize: 13),
-                        //         ),
-                        //         Text(price.toString()),
-                        //         IconButton(
-                        //           onPressed: () {},
-                        //           icon: Icon(Icons.delete),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        //   Padding(
-                        //     padding: const EdgeInsets.all(8.0),
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         // PriceWidget(
-                        //         //   isOnSale: true,
-                        //         //   price: price,
-                        //         //   salePrice: discountprice,
-                        //         //   textPrice: _quantityTextController.text,
-                        //         // ),
-                        //         SizedBox(
-                        //           width: 8,
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        //   Spacer(),
-
-                        // ]),
                       ),
                     ),
                   );

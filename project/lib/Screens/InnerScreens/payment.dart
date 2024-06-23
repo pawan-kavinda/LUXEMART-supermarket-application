@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -23,7 +22,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void makePayment() async {
     try {
-      paymentIntent = await createPaymentintent();
+      paymentIntent = await createPaymentIntent();
       var gpay = PaymentSheetGooglePay(
           merchantCountryCode: "US", currencyCode: "USD", testEnv: true);
       await Stripe.instance.initPaymentSheet(
@@ -38,15 +37,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
   }
 
-  // void displayPaymentSheet() async {
-  //   try {
-  //     await Stripe.instance.presentPaymentSheet();
-  //     print("done");
-  //   } catch (e) {
-  //     print("display payment failed");
-  //   }
-  // }
-  displayPaymentSheet() async {
+  void displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
         showDialog(
@@ -108,7 +99,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
   }
 
-  createPaymentintent() async {
+  createPaymentIntent() async {
     try {
       Map<String, dynamic> body = {
         "amount": "${widget.price}",
@@ -130,67 +121,107 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.amber,
-          title: Text(
-            "Few more steps to go!",
-            style: GoogleFonts.lato(
-                fontWeight: FontWeight.bold, letterSpacing: 2, fontSize: 20),
-          ),
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        title: Text(
+          "Few more steps to go!",
+          style: GoogleFonts.lato(
+              fontWeight: FontWeight.bold, letterSpacing: 2, fontSize: 20),
         ),
-        body: Center(
+      ),
+      body: Center(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Lottie.network(
                   'https://lottie.host/12a7ba84-5e76-46a5-8bd9-edf08286baae/I771dLUPja.json',
-                  width: 350,
-                  height: 300),
+                  width: screenWidth * 0.8,
+                  height: screenHeight * 0.4),
               Padding(
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.04, vertical: 0),
                 child: Container(
                   decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Color.fromARGB(
-                        255, 44, 208, 19), // Set border color here
-                    width: 2, // Set border width here
-                  )),
+                    border: Border.all(
+                      color: Color.fromARGB(255, 44, 208, 19),
+                      width: 2,
+                    ),
+                  ),
                   child: Padding(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.01,
+                        vertical: screenWidth * 0.01),
                     child: Text(
-                      "Before proceeding with the online card payment, Ensure that you are connected to a secure and trusted network to safeguard your payment information. Assured that we do not store any of your card details on our servers, prioritizing your privacy and security. Your satisfaction and peace of mind are our top priorities",
+                      "Before proceeding with the online card payment, ensure that you are connected to a secure and trusted network to safeguard your payment information. Assured that we do not store any of your card details on our servers.",
                       style: GoogleFonts.actor(
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2,
-                          fontSize: 16),
+                          fontSize: screenWidth * 0.04),
                       textAlign: TextAlign.center,
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(28.0),
-                child: AnimatedButton.strip(
-                  onPress: () {
-                    makePayment();
-                  },
-                  width: 300,
-                  height: 45,
-                  text: 'Click Here to Pay',
-                  isReverse: true,
-                  selectedTextColor: Color.fromARGB(255, 6, 0, 0),
-                  stripTransitionType: StripTransitionType.LEFT_TO_RIGHT,
-                  selectedBackgroundColor: Color.fromARGB(255, 207, 210, 207),
-                  backgroundColor: Color.fromARGB(255, 231, 237, 62),
-                  textStyle: GoogleFonts.nunito(
-                      fontSize: 20,
-                      letterSpacing: 5,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      fontWeight: FontWeight.w300),
-                ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(screenWidth * 0.04),
+                    child: AnimatedButton.strip(
+                      onPress: makePayment,
+                      width: screenWidth * 0.43,
+                      height: screenHeight * 0.06,
+                      text: 'Stripe Payment Method',
+                      isReverse: true,
+                      selectedTextColor: Color.fromARGB(255, 6, 0, 0),
+                      stripTransitionType: StripTransitionType.LEFT_TO_RIGHT,
+                      selectedBackgroundColor:
+                          Color.fromARGB(255, 207, 210, 207),
+                      backgroundColor: Color.fromARGB(255, 34, 68, 238),
+                      textStyle: GoogleFonts.balooBhai2(
+                          fontSize: screenWidth * 0.032,
+                          letterSpacing: 5,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(screenWidth * 0.005),
+                    child: AnimatedButton.strip(
+                      onPress: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                SetLocation(price: widget.price),
+                          ),
+                        );
+                      },
+                      width: screenWidth * 0.43,
+                      height: screenHeight * 0.06,
+                      text: 'After Delivery',
+                      isReverse: true,
+                      selectedTextColor: Color.fromARGB(255, 6, 0, 0),
+                      stripTransitionType: StripTransitionType.LEFT_TO_RIGHT,
+                      selectedBackgroundColor:
+                          Color.fromARGB(255, 207, 210, 207),
+                      backgroundColor: Color.fromARGB(255, 9, 186, 18),
+                      textStyle: GoogleFonts.balooBhai2(
+                          fontSize: screenWidth * 0.032,
+                          letterSpacing: 5,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

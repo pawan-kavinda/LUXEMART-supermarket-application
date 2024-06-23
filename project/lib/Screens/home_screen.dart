@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:animated_background/animated_background.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
@@ -53,42 +51,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       drawer: NavDrawer(),
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        // leading: IconButton(
-        //   onPressed: () {
-        //     Get.to(() => NavDrawer(), transition: Transition.downToUp);
-        //   },
-        //   icon: Padding(
-        //     padding: const EdgeInsets.only(right: 8.0),
-        //     child: Icon(
-        //       Icons.menu,
-        //       color: Colors.black,
-        //       weight: double.minPositive,
-        //     ),
-        //   ),
-        // ),
-
         title: Row(children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search",
-                  hintStyle: GoogleFonts.lato(
-                      letterSpacing: 2,
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                padding: const EdgeInsets.only(left: 60.0),
+                child: Text(
+                  "LUXEMART",
+                  style: TextStyle(
+                      color: Colors.green, fontWeight: FontWeight.bold),
+                )),
           ),
           IconButton(
               onPressed: () {
@@ -135,7 +106,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ))),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 115, top: 10),
+                  padding:
+                      const EdgeInsets.only(left: 120, top: 20, bottom: 10),
                   child: Row(
                     children: [
                       BlinkText(
@@ -162,13 +134,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 SizedBox(
                   height: 180,
-                  child: ListView.builder(
-                    itemCount: 1,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Container(width: 5000, child: Discount());
-                    },
-                  ),
+                  child: Discount(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -221,19 +187,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 100),
-                      //   child: Text(
-                      //     "ALL PRODUCTS",
-                      //     style: GoogleFonts.lato(
-                      //       color: Color.fromARGB(255, 0, 0, 7),
-                      //       fontStyle: FontStyle.normal,
-                      //       fontSize: 20,
-                      //       letterSpacing: 1,
-                      //       fontWeight: FontWeight.bold,
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.only(left: 115, top: 10),
                         child: Row(

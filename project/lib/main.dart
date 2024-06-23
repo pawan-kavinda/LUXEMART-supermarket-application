@@ -25,8 +25,8 @@ void main() async {
   Stripe.publishableKey =
       "pk_test_51PIu4L007m7Jbqb5LOyzOmrRvQNhLWnOqJXX44t91NltE8RnpnRc2e7x3aWA7Ar3IpgvOQvC5SqbwaslAjZCKZIq00TbHxrMc7";
 
-  // PushNotification.init();
-  // PushNotification.listenForLocationChanges();
+  PushNotification.init();
+  PushNotification.listenForLocationChanges();
   runApp(const MyApp());
 }
 

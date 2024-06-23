@@ -282,42 +282,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // Future<void> _showLogoutDialog() async {
-  //   await showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: Row(
-  //             children: const [
-  //               Text("Log Out"),
-  //             ],
-  //           ),
-  //           content: const Text("Do you relly want to Logout?"),
-  //           actions: [
-  //             TextButton(
-  //                 onPressed: () {
-  //                   if (Navigator.canPop(context)) {
-  //                     Navigator.pop(context);
-  //                   }
-  //                 },
-  //                 child: Text(
-  //                   "Cancel",
-  //                 )),
-  //             TextButton(
-  //                 onPressed: () async {
-  //                   await FirebaseAuth.instance.signOut().then((value) => Navigator.pop(context));
-
-  //                   Navigator.push(
-  //                     context,
-  //                     MaterialPageRoute(
-  //                         builder: (context) => const LoginScreen()),
-  //                   );
-  //                 },
-  //                 child: Text("Log Out", style: TextStyle(color: Colors.red))),
-  //           ],
-  //         );
-  //       });
-  // }
   Future<void> _showLogoutDialog() async {
     await showDialog(
       context: context,

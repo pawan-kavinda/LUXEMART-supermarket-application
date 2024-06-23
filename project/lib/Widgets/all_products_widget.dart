@@ -41,17 +41,6 @@ class _AllProductsWidgetState extends State<AllProductsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Icon(
-              Icons.menu,
-              color: Colors.black,
-              weight: double.minPositive,
-            ),
-          ),
-        ),
         title: Row(children: [
           Expanded(
             child: Padding(

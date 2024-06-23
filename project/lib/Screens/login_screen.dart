@@ -167,47 +167,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   )),
             ),
-            // TextButton(
-            //   onPressed: () async {
-            //     String res = await _authController.signInUser(
-            //         _emailController!.text, _passwordController!.text);
-            //     if (res == 'Successfully logged in') {
-            //       Get.to(() => BottomBarScreen(), transition: Transition.zoom);
-            //     } else {
-            //       _showLoginErrorDialog();
-            //     }
-            //   },
-            //   child: Padding(
-            //     padding: const EdgeInsets.symmetric(vertical: 5),
-            //     child: Text("Login"),
-            //   ),
-            // ),
-            // TextButton(
-            //     onPressed: () async {
-            //       await signInWithGoogle();
-            //       // if (mounted) {
-            //       //   Navigator.push(
-            //       //     context,
-            //       //     MaterialPageRoute(
-            //       //         builder: (context) => BottomBarScreen()),
-            //       //   );
-            //       // }
-            //     },
-            //     child: Text("Google")),
-            // Text(
-            //   'Dont have an account? Click Here To Register',
-            //   style: GoogleFonts.lato(
-            //       letterSpacing: 1.5,
-            //       fontWeight: FontWeight.bold,
-            //       fontSize: 15),
-            // ),
-            // TextButton(
-            //   onPressed: () async {
-            //     Get.to(() => RegistrationScreen(),
-            //         transition: Transition.rightToLeft);
-            //   },
-            //   child: Text("Register"),
-            // ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: RichText(

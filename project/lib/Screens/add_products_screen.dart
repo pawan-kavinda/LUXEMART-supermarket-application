@@ -188,30 +188,4 @@ class _AddFoodState extends State<AddFood> {
           ],
         ));
   }
-
-  // Future<void> _showAddedDialog() async {
-  //   await showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: Row(
-  //             children: const [
-  //               Text("Add"),
-  //             ],
-  //           ),
-  //           content: const Text("Product added to the menu successfully"),
-  //           actions: [
-  //             TextButton(
-  //                 onPressed: () {
-  //                   Navigator.push(
-  //                     context,
-  //                     MaterialPageRoute(
-  //                         builder: (context) => const AdminBottomBarScreen()),
-  //                   );
-  //                 },
-  //                 child: Text("Ok", style: TextStyle(color: Colors.red))),
-  //           ],
-  //         );
-  //       });
-  //}
 }

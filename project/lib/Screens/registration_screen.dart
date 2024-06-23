@@ -111,47 +111,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: Text('Select image'),
               ),
             ),
-            // TextButton(
-            //     onPressed: () async {
-            //       await _authController.signInWithGoogle();
-            //       // if (mounted) {
-            //       //   Navigator.push(
-            //       //     context,
-            //       //     MaterialPageRoute(
-            //       //         builder: (context) => BottomBarScreen()),
-            //       //   );
-            //       // }
-            //     },
-            //     child: Text("Google")),
-            // TextButton(
-            //     onPressed: () async {
-            //       Get.to(() => LoginScreen(),
-            //           transition: Transition.leftToRight);
-            //     },
-            //     child: Text("LoginPage")),
-            // TextButton(
-            //   onPressed: () async {
-            //     var imageName =
-            //         DateTime.now().millisecondsSinceEpoch.toString();
-            //     var storageRef = FirebaseStorage.instance
-            //         .ref()
-            //         .child('user_profiles/$imageName.jpg');
-            //     var uploadTask = storageRef.putFile(_image!);
-            //     String downloadUrl =
-            //         await (await uploadTask).ref.getDownloadURL();
-            //     await _authController.signUpUser(
-            //         _mobileNumberController!.text,
-            //         _displayNameController!.text,
-            //         _emailController!.text,
-            //         _passwordController!.text,
-            //         downloadUrl);
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => LoginScreen()),
-            //     );
-            //   },
-            //   child: Text("Submit"),
-            // ),
             ElevatedButton(
                 onPressed: () async {
                   showDialog(
